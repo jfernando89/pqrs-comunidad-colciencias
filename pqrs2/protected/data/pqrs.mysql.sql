@@ -1,6 +1,6 @@
 CREATE TABLE tipos_documento (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	nombre VARCHAR(20) NOT NULL
+	nombre VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE paises (
@@ -23,8 +23,7 @@ CREATE TABLE ciudades (
 );
 
 CREATE TABLE contactos (
-	id VARCHAR(15) NOT NULL,
-	FOREIGN KEY(id) REFERENCES ciudadanos(id),
+	id VARCHAR(15) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE ciudadanos (
@@ -37,7 +36,7 @@ CREATE TABLE ciudadanos (
     telefono VARCHAR(12),
     correo VARCHAR(25) NOT NULL,
     ciudad INTEGER NOT NULL,
-
+	FOREIGN KEY(id) REFERENCES contactos(id),
     FOREIGN KEY(tipoId) REFERENCES tipos_documento(id),
     FOREIGN KEY(ciudad) REFERENCES ciudades(id)    
 );
@@ -58,41 +57,41 @@ CREATE TABLE empresas (
 );
 
 /* Se rellenan los tipos de documento */
-INSERT INTO tipos_documento VALUES ('Cédula de Ciudadanía');
-INSERT INTO tipos_documento VALUES ('Tarjeta de Identidad');
-INSERT INTO tipos_documento VALUES ('Cédula de Extranjería');
+INSERT INTO tipos_documento (nombre) VALUES ('Cédula de Ciudadanía');
+INSERT INTO tipos_documento (nombre) VALUES ('Tarjeta de Identidad');
+INSERT INTO tipos_documento (nombre) VALUES ('Cédula de Extranjería');
 
 /* Se rellenan los paises del mundo */
-INSERT INTO paises VALUES ('Chile');
-INSERT INTO paises VALUES ('Argentina');
-INSERT INTO paises VALUES ('Uruguay');
-INSERT INTO paises VALUES ('Paraguay');
-INSERT INTO paises VALUES ('Brasil');
-INSERT INTO paises VALUES ('Bolivia');
-INSERT INTO paises VALUES ('Perú');
-INSERT INTO paises VALUES ('Ecuador');
-INSERT INTO paises VALUES ('Venezuela');
-INSERT INTO paises VALUES ('Colombia');
+INSERT INTO paises (nombre) VALUES ('Chile');
+INSERT INTO paises (nombre) VALUES ('Argentina');
+INSERT INTO paises (nombre) VALUES ('Uruguay');
+INSERT INTO paises (nombre) VALUES ('Paraguay');
+INSERT INTO paises (nombre) VALUES ('Brasil');
+INSERT INTO paises (nombre) VALUES ('Bolivia');
+INSERT INTO paises (nombre) VALUES ('Perú');
+INSERT INTO paises (nombre) VALUES ('Ecuador');
+INSERT INTO paises (nombre) VALUES ('Venezuela');
+INSERT INTO paises (nombre) VALUES ('Colombia');
 
 /* Se rellenan los departamentos de cada pais */
-INSERT INTO departamentos VALUES (10,'Nariño');
-INSERT INTO departamentos VALUES (10,'Cauca');
-INSERT INTO departamentos VALUES (10,'Putumayo');
-INSERT INTO departamentos VALUES (10,'Valle del Cauca');
-INSERT INTO departamentos VALUES (10,'Quindío');
-INSERT INTO departamentos VALUES (10,'Risaralda');
-INSERT INTO departamentos VALUES (10,'Caldas');
-INSERT INTO departamentos VALUES (10,'Chocó');
-INSERT INTO departamentos VALUES (10,'Antioquia');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Nariño');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Cauca');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Putumayo');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Valle del Cauca');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Quindío');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Risaralda');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Caldas');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Chocó');
+INSERT INTO departamentos (pais,nombre) VALUES (10,'Antioquia');
 
 /* Se rellenan las ciudades de cada departamento */
-INSERT INTO ciudades VALUES (1,'Pasto');
-INSERT INTO ciudades VALUES (2,'Popayán');
-INSERT INTO ciudades VALUES (2,'Piendamó');
-INSERT INTO ciudades VALUES (4,'Sevilla');
-INSERT INTO ciudades VALUES (4,'Caicedonia');
-INSERT INTO ciudades VALUES (4,'Cali');
-INSERT INTO ciudades VALUES (5,'Armenia');
-INSERT INTO ciudades VALUES (5,'Quimbaya');
-INSERT INTO ciudades VALUES (6,'Pereira');
-INSERT INTO ciudades VALUES (9,'Medellín');
+INSERT INTO ciudades (departamento,nombre) VALUES (1,'Pasto');
+INSERT INTO ciudades (departamento,nombre) VALUES (2,'Popayán');
+INSERT INTO ciudades (departamento,nombre) VALUES (2,'Piendamó');
+INSERT INTO ciudades (departamento,nombre) VALUES (4,'Sevilla');
+INSERT INTO ciudades (departamento,nombre) VALUES (4,'Caicedonia');
+INSERT INTO ciudades (departamento,nombre) VALUES (4,'Cali');
+INSERT INTO ciudades (departamento,nombre) VALUES (5,'Armenia');
+INSERT INTO ciudades (departamento,nombre) VALUES (5,'Quimbaya');
+INSERT INTO ciudades (departamento,nombre) VALUES (6,'Pereira');
+INSERT INTO ciudades (departamento,nombre) VALUES (9,'Medellín');

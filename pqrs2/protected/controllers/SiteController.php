@@ -106,4 +106,12 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	
+	/**
+	 * Test Action to learn how to work with Yii
+	 */
+	public function actionSay( $message = 'Hello' ) {
+		return $this->render('say', [ 'message'=>$message ] );	
+	}
+	
 }

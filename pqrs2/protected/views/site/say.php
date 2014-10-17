@@ -1,1 +1,0 @@
-<?= CHtml::encode($message) ?>

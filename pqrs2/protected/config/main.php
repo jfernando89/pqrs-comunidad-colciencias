@@ -62,7 +62,7 @@ return array(
 
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
-			'errorAction'=>'site/error',
+			'errorAction'=>'ventanilla/error',
 		),
 		'log'=>array(
 			'class'=>'CLogRouter',

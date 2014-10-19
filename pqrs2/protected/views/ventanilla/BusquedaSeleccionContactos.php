@@ -5,10 +5,28 @@ $this->breadcrumbs=array(
 	'Ventanilla'=>array('/ventanilla'),
 	'BusquedaSeleccionContactos',
 );
-?>
-<h1><?php echo $this->id . '/' . $this->action->id; ?></h1>
 
-<p>
-	You may change the content of this page by modifying
-	the file <tt><?php echo __FILE__; ?></tt>.
-</p>
+echo CHtml::beginForm('ContactoForm');
+?>
+
+<div class="row">
+<?php echo CHtml::activeLabel($model,'Tipo:'); ?>
+<?php echo CHtml::activeTextField($model,'tipoId') ?>
+</div>
+
+<div class="row">
+<?php echo CHtml::activeLabel($model,'NIT / Cedula:'); ?>
+<?php echo CHtml::activeTextField($model,'id') ?>
+</div>
+
+<div class="row">
+<?php echo CHtml::activeLabel($model,'Nombre:'); ?>
+<?php echo CHtml::activeTextField($model,'nombre') ?>
+</div>
+
+<div class="row">
+<?php echo CHtml::activeLabel($model,'Primer Apellido:'); ?>
+<?php echo CHtml::activeTextField($model,'primerApellido') ?>
+</div>
+
+<?php echo CHtml::endForm(); ?>

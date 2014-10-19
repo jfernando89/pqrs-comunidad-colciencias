@@ -31,12 +31,14 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Inicio', 'url'=>array('/site/index')),
-				array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>'Contact', 'url'=>array('/site/contact')),
+				array('label'=>'Principal', 'url'=>array('/ventanilla/PrincipalVentanilla')),
+				array('label'=>'Contactos', 'url'=>array('/ventanilla/BusquedaSeleccionContactos')),
+				array('label'=>'PQRS', 'url'=>array('/ventanilla/RadicarPQRS')),
+				array('label'=>'Entregas', 'url'=>array('/ventanilla/ListaComprobantesEntrega')),
+				array('label'=>'Archivar', 'url'=>array('/ventanilla/ListaPQRSPendientesArchivar')),
+				array('label'=>'Digitalizar', 'url'=>array('/ventanilla/ListaPQRSPendientesDigitalizar')),
 			//	array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 			//	array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-			    array('label'=>'CRUD Ciudadano', 'url'=>array('/ciudadanos/index'))
 			),
 		)); ?>
 	</div><!-- mainmenu -->

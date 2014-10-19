@@ -46,7 +46,18 @@ class VentanillaController extends Controller
 	
 	public function actionBusquedaSeleccionContactos()
 	{
-		$this->render('BusquedaSeleccionContactos');
+		$model = new ContactoForm;
+		
+		if (isset($_POST['ContactoForm'])) {
+			// collects user input data
+	        $model->attributes=$_POST['ContactoForm'];
+	        // validates user input and redirect to previous page if validated
+	        if($model->validate())
+ 	            $this->redirect(Yii::app()->user->returnUrl);
+		} else {
+			$this->render('BusquedaSeleccionContactos',array('model'=>$model));
+		}
+		
 	}
 
 	public function actionCrearContacto()

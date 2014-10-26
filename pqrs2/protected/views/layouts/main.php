@@ -33,7 +33,7 @@
 			'items'=>array(
 				array('label'=>'Principal', 'url'=>array('/ventanilla/PrincipalVentanilla')),
 				array('label'=>'Contactos', 'url'=>array('/ventanilla/BusquedaSeleccionContactos')),
-				array('label'=>'PQRS', 'url'=>array('/ventanilla/RadicarPQRS')),
+// 				array('label'=>'PQRS', 'url'=>array('/ventanilla/RadicarPQRS')),
 				array('label'=>'Entregas', 'url'=>array('/ventanilla/ListaComprobantesEntrega')),
 				array('label'=>'Archivar', 'url'=>array('/ventanilla/ListaPQRSPendientesArchivar')),
 				array('label'=>'Digitalizar', 'url'=>array('/ventanilla/ListaPQRSPendientesDigitalizar')),

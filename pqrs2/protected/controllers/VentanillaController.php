@@ -47,17 +47,37 @@ class VentanillaController extends Controller
 	public function actionBusquedaSeleccionContactos()
 	{
 		$model = new ContactoForm;
-		
+		$tiposId = ['Ciudadano','Empresa'];
+			
 		if (isset($_POST['ContactoForm'])) {
 			// collects user input data
-	        $model->attributes=$_POST['ContactoForm'];
+	        $model->tipoId = $_POST['ContactoForm']['tipoId'];
+
+	        // Select the correct data provider
+	        if( $model->tipoId == 0 ) {	// Ciudadanos
+	        	$ciudadano = new Ciudadanos;
+	        	$ciudadano->id = $_POST['ContactoForm']['id'];
+	        	$ciudadano->nombres = $_POST['ContactoForm']['nombre'];
+	        	$ciudadano->primerApelldio = $_POST['ContactoForm']['primerApellido'];
+
+	        	$dataProvider = $ciudadano->search();//new CActiveDataProvider('Ciudadanos');
+	        }
+	        else {	// Empresas
+	        	$empresa = new Empresas;
+	        	$empresa->nit = $_POST['ContactoForm']['id'];
+	        	$empresa->nombre = $_POST['ContactoForm']['nombre'];
+
+	        	$dataProvider = $empresa->search();//new CActiveDataProvider('Empresas');
+	        }
+	        	
 	        // validates user input and redirect to previous page if validated
-	        if($model->validate())
- 	            $this->redirect(Yii::app()->user->returnUrl);
-		} else {
-			$this->render('BusquedaSeleccionContactos',array('model'=>$model));
-		}
-		
+	        $this->render('BusquedaSeleccionContactos',array('model'=>$model,
+ 	            										     'tiposId'=>$tiposId,
+ 	            											 'dataProvider'=>$dataProvider));
+		 }
+		 else { 
+				$this->render('BusquedaSeleccionContactos',array('model'=>$model,'tiposId'=>$tiposId));		
+		 }
 	}
 
 	public function actionCrearContacto()

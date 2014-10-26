@@ -126,4 +126,13 @@ class Empresas extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public function getWholeName() {
+		return $this->nombre;
+	}
+	
+	public function getId() {
+		return $this->nit;
+	}
+	
 }

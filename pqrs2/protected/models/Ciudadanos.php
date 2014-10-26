@@ -104,11 +104,6 @@ class Ciudadanos extends CActiveRecord
 		$criteria->compare('tipoId',$this->tipoId);
 		$criteria->compare('nombres',$this->nombres,true);
 		$criteria->compare('primerApelldio',$this->primerApelldio,true);
-// 		$criteria->compare('segundoApellido',$this->segundoApellido,true);
-// 		$criteria->compare('direccion',$this->direccion,true);
-// 		$criteria->compare('telefono',$this->telefono,true);
-// 		$criteria->compare('correo',$this->correo,true);
-// 		$criteria->compare('ciudad',$this->ciudad);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -125,4 +120,13 @@ class Ciudadanos extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+	
+	public function getWholeName() {
+		return $this->nombres . ' ' . $this->primerApelldio . ' ' . $this->segundoApellido; 
+	}
+	
+	public function getId() {
+		return $this->id;
+	}
+	
 }

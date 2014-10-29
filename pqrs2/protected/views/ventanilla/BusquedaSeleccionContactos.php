@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 <div class="form">
 
-<?php echo CHtml::beginForm(); ?>
+<?php echo CHtml::beginForm($this->createUrl('busquedaSeleccionContactos')); ?>
 
 <div class="row">
 <?php echo CHtml::activeLabel($model,'Tipo:'); ?>

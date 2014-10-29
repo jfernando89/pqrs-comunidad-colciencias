@@ -44,8 +44,28 @@ class VentanillaController extends Controller
 		}
 	}
 	
-	public function actionBusquedaSeleccionContactos()
-	{
+    public function actionListaDepartamentos() {
+        $pais = (int) $_POST['ContactoForm']['pais'];
+        $departamentos = CHtml::listData(Departamentos::model()->findAll('pais =:pais', array(':pais'=>$pais)), 'id', 'nombre');
+
+        echo CHtml::tag('option', array('value'=>''), ' ', true);
+        
+        foreach ($departamentos as $valor=>$departamento) {
+            echo CHtml::tag('option', array('value'=>$valor), CHtml::encode($departamento), true);
+        }
+    }
+
+    public function actionListaCiudades() {
+        $departamento = (int) $_POST ['ContactoForm']['departamento'];
+        $ciudades = CHtml::listData(Ciudades::model()->findAll('departamento =:departamento', array(':departamento'=>$departamento)), 'id', 'nombre');
+
+        foreach ($ciudades as $valor => $ciudad) {
+            echo CHtml::tag('option', array('value'=>$valor), CHtml::encode($ciudad), true);
+        }
+    }
+
+	
+	public function actionBusquedaSeleccionContactos() {
 		$model = new ContactoForm;
 		$tiposId = ['Ciudadano','Empresa'];
 			
@@ -80,9 +100,63 @@ class VentanillaController extends Controller
 		 }
 	}
 
-	public function actionCrearContacto()
-	{
-		$this->render('CrearContacto');
+	public function actionCrearContacto() {
+		$model1 = new Ciudadanos;
+		$model2 = new Empresas;
+		$model = new ContactoForm;
+		
+		if(isset($_POST['ContactoForm']) && $_POST['ContactoForm']['tipoContacto']=='Ciudadano')
+		{
+			$model1->attributes=$_POST['Ciudadanos'];
+			if($model1->validate())
+			{
+				$contacto = new Contactos;
+				$contacto->id = $model1->id;
+				$contacto->save();
+				
+				$model1->save();
+				unset($_POST);
+				$this->actionBusquedaSeleccionContactos();
+				return;
+			}
+		}
+		else if(isset($_POST['ContactoForm']) && $_POST['ContactoForm']['tipoContacto']=='Empresa') {
+			$model2->attributes=$_POST['Empresas'];
+			if($model2->validate())
+			{
+				$contacto = new Contactos;
+				$contacto->id = $model2->id;
+				$contacto->save();
+				
+				$model2->save();
+				unset($_POST);
+				$this->actionBusquedaSeleccionContactos();
+				return;
+			}
+		}
+		
+		// por defecto
+		$model->tipoContacto = 'Ciudadano';
+				
+		// lista de tipos de documentos
+		$result = TiposDocumento::model()->findAll();
+		$tiposId = array();
+		
+		foreach( $result as $tipoId ) {		
+			$tiposId[$tipoId->id] = $tipoId->nombre;		
+		}
+		
+		// lista de paises
+		$result = Paises::model()->findAll();
+		$paises = array();
+		
+		foreach( $result as $pais ) {
+			$paises[$pais->id] = $pais->nombre;
+		}
+		
+		// llamar la vista
+		$this->render('CrearContacto',array('model'=>$model,'model1'=>$model1,'model2'=>$model2,'tiposId'=>$tiposId,'paises'=>$paises));
+
 	}
 
 	public function actionListaComprobantesEntrega()

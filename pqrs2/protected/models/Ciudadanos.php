@@ -70,15 +70,15 @@ class Ciudadanos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'tipoId' => 'Tipo',
-			'nombres' => 'Nombres',
-			'primerApelldio' => 'Primer Apelldio',
-			'segundoApellido' => 'Segundo Apellido',
-			'direccion' => 'Direccion',
-			'telefono' => 'Telefono',
-			'correo' => 'Correo',
-			'ciudad' => 'Ciudad',
+			'id' => 'Numero de Identificacion:',
+			'tipoId' => 'Tipo de Identificacion:',
+			'nombres' => 'Nombres:',
+			'primerApelldio' => 'Primer Apellido:',
+			'segundoApellido' => 'Segundo Apellido:',
+			'direccion' => 'Direccion:',
+			'telefono' => 'Telefono:',
+			'correo' => 'Correo Electronico:',
+			'ciudad' => 'Ciudad:',
 		);
 	}
 

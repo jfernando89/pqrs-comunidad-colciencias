@@ -69,16 +69,16 @@ class Empresas extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'nit' => 'Nit',
-			'nombre' => 'Nombre',
-			'direccion' => 'Direccion',
-			'telefono' => 'Telefono',
-			'correo' => 'Correo',
-			'ciudad' => 'Ciudad',
-			'nombreContacto' => 'Nombre Contacto',
-			'primerApellidoContacto' => 'Primer Apellido Contacto',
-			'segundoApellidoContacto' => 'Segundo Apellido Contacto',
-			'telefonoContacto' => 'Telefono Contacto',
+			'nit' => 'Nit:',
+			'nombre' => 'Nombre Empresa:',
+			'direccion' => 'Direccion:',
+			'telefono' => 'Telefono:',
+			'correo' => 'Correo Electronico:',
+			'ciudad' => 'Ciudad:',
+			'nombreContacto' => 'Nombre Contacto:',
+			'primerApellidoContacto' => 'Primer Apellido Contacto:',
+			'segundoApellidoContacto' => 'Segundo Apellido Contacto:',
+			'telefonoContacto' => 'Telefono Contacto:',
 		);
 	}
 

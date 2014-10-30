@@ -12,29 +12,30 @@ $this->breadcrumbs=array(
 <?php echo CHtml::beginForm($this->createUrl('busquedaSeleccionContactos')); ?>
 
 <div class="row">
-<?php echo CHtml::activeLabel($model,'Tipo:'); ?>
+<?php echo CHtml::activeLabel($model,'Tipo:',array('class'=>'span-3')); ?>
 <?php echo CHtml::activeDropDownList($model,'tipoId',$tiposId); ?>
 </div>
 
 <div class="row">
-<?php echo CHtml::activeLabel($model,'NIT / Cedula:'); ?>
+<?php echo CHtml::activeLabel($model,'NIT / Cedula:',array('class'=>'span-3')); ?>
 <?php echo CHtml::activeTextField($model,'id'); ?>
 </div>
 
 <div class="row">
-<?php echo CHtml::activeLabel($model,'Nombre:'); ?>
+<?php echo CHtml::activeLabel($model,'Nombre:',array('class'=>'span-3')); ?>
 <?php echo CHtml::activeTextField($model,'nombre'); ?>
 </div>
 
 <div class="row">
-<?php echo CHtml::activeLabel($model,'Primer Apellido:'); ?>
+<?php echo CHtml::activeLabel($model,'Primer Apellido:',array('class'=>'span-3')); ?>
 <?php echo CHtml::activeTextField($model,'primerApellido'); ?>
 </div>
 
 <div class="row">
-<?php echo CHtml::submitButton('Buscar'); ?>
-<?php echo CHtml::resetButton('Cancelar'); ?>
-<?php echo CHtml::link('Agregar Contacto',array('ventanilla/crearContacto')); ?>
+<div class="span-3"><label></label></div>
+<?php echo CHtml::submitButton('Buscar',array('class'=>'buttonPQR')); ?>
+<?php echo CHtml::resetButton('Cancelar',array('class'=>'buttonPQR')); ?>
+<?php echo CHtml::link('Agregar Contacto',array('ventanilla/crearContacto'),array('class'=>'buttonPQR linkPQR')); ?>
 </div>
 
 <?php 
@@ -54,7 +55,10 @@ $this->breadcrumbs=array(
 						'name'=>'Nombre',
 						'value'=>'$data->wholeName'
 					),
-		        	'telefono'
+					array(
+						'header'=>'Telefono',
+						'name'=>'telefono'
+					),
 				),
 			    'selectionChanged'=>'function(id){'.
 										'var temp = $.fn.yiiGridView.getSelection(id);'.

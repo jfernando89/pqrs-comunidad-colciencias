@@ -31,7 +31,7 @@
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				array('label'=>'Principal', 'url'=>array('/ventanilla/PrincipalVentanilla')),
+				array('label'=>'Principal', 'url'=>array('/ventanilla/index')),
 				array('label'=>'Contactos', 'url'=>array('/ventanilla/BusquedaSeleccionContactos')),
 // 				array('label'=>'PQRS', 'url'=>array('/ventanilla/RadicarPQRS')),
 				array('label'=>'Entregas', 'url'=>array('/ventanilla/ListaComprobantesEntrega')),

@@ -174,11 +174,6 @@ class VentanillaController extends Controller
 		$this->render('ListaPQRSPendientesDigitalizar');
 	}
 
-	public function actionPrincipalVentanilla()
-	{
-		$this->render('PrincipalVentanilla');
-	}
-
 	public function actionRadicarPQRS()
 	{
 		$this->render('RadicarPQRS');

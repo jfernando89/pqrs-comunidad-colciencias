@@ -166,3 +166,36 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 #EmpresaDiv {
 	display: none;
 }
+
+label {
+	margin-top:	5px;
+}
+
+.buttonPQR {
+	padding: 6px;
+	border: 1px solid white;
+	text-decoration: none;
+	width:	90px;
+	height: 28px;
+	background-color: #7cb1d0;
+	color: #FFF;
+	font-weight: bold;
+	border-left: 10px solid white;
+}
+
+.linkPQR {
+	padding: 5px 16px;
+}
+
+.buttonPQR:hover {
+	color: #000;
+	cursor: pointer;
+}
+
+h2 {
+	margin-top: 70px;
+}
+
+#CiudadanoDiv, #EmpresaDiv {
+	margin-top:	40px;
+}

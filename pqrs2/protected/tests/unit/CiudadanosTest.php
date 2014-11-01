@@ -21,12 +21,13 @@ class CiudadanosTest extends CDbTestCase {
 		$ciudadano1 = $ciudadanos['ciudadano1'];
 		
 		$ciudadanoBuscar = new Ciudadanos;
-		$ciudadanoBuscar->id = $ciudadano1->id;
+		$ciudadanoBuscar->id = $ciudadano1['id'];
 		$ciudadanoEncontrado = $ciudadanoBuscar->search();
+		$encontrados = $ciudadanoEncontrado->getData();
 		
-		$wholeName = $ciudadanoEncontrado->wholeName;
+		$wholeName = $encontrados[0]->wholeName;
 		
-		$this->assertEquals( $wholeName, $ciudadano1->nombres . ' ' . $ciudadano1->primerApelldio . ' ' . $ciudadano1->segundoApellido );
+		$this->assertEquals( $wholeName, $ciudadano1['nombres'] . ' ' . $ciudadano1['primerApelldio'] . ' ' . $ciudadano1['segundoApellido'] );
 	}
 	
 	public function testGetId() {
@@ -34,12 +35,13 @@ class CiudadanosTest extends CDbTestCase {
 		$ciudadano1 = $ciudadanos['ciudadano1'];
 	
 		$ciudadanoBuscar = new Ciudadanos;
-		$ciudadanoBuscar->id = $ciudadano1->id;
+		$ciudadanoBuscar->id = $ciudadano1['id'];
 		$ciudadanoEncontrado = $ciudadanoBuscar->search();
+		$encontrados = $ciudadanoEncontrado->getData();
+		
+		$id = $encontrados[0]->id;
 	
-		$id = $ciudadanoEncontrado->id;
-	
-		$this->assertEquals( $id, $ciudadano1->id );
+		$this->assertEquals( $id, $ciudadano1['id'] );
 	}
 	
 }

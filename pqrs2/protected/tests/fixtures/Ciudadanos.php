@@ -4,7 +4,8 @@ return array(
 						'id'=>'999',
 						'tipoId'=>3,
 						'nombres'=>'William Alonso',
-						'primerApellido'=>'Quiceno',
+						'primerApelldio'=>'Quiceno',
+						'segundoApellido'=>'Restrepo',
 						'correo'=>'ccss3@gmail.com',
 						'ciudad'=>11
 					  )

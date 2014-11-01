@@ -103,7 +103,7 @@ class Ciudadanos extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('tipoId',$this->tipoId);
 		$criteria->compare('nombres',$this->nombres,true);
-		$criteria->compare('primerApelldio',$this->primerApelldio,true);
+		$criteria->compare('primerApelldio',$this->primerApelldio,true);		
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

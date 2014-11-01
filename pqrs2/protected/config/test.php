@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 return CMap::mergeArray(
 	require(dirname(__FILE__).'/main.php'),
 	array(
@@ -7,11 +6,14 @@ return CMap::mergeArray(
 			'fixture'=>array(
 				'class'=>'system.test.CDbFixtureManager',
 			),
-			/* uncomment the following to provide test database connection
 			'db'=>array(
-				'connectionString'=>'DSN for test database',
+				'connectionString' => 'mysql:host=localhost;dbname=pqrs_prueba',
+				'emulatePrepare' => true,
+				'username' => 'root',
+				'password' => '12345',
+				'charset' => 'utf8',
 			),
-			*/
 		),
 	)
 );
+?>

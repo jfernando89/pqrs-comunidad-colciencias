@@ -12,6 +12,20 @@ class ContactosTest extends CDbTestCase {
 		$this->assertNotNull( $contactoEncontrado );
 	}
 	
+	public function testSave() {
+		$contacto = new Contactos;
+		$contacto->id = '555';
+		
+		// validar que no existe
+		$this->assertEquals( count( $contacto->search()->getData() ), 0 );
+		
+		// guardar
+		$contacto->save();
+		
+		// validar que ya existe
+		$this->assertEquals( count( $contacto->search()->getData() ), 1 );
+	}
+	
 }
 
 ?>

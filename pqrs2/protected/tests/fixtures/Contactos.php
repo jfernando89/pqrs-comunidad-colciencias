@@ -1,0 +1,22 @@
+<?php
+return array(
+		'contacto1'=>array(
+				'id'=>'999'
+		),
+		'contacto2'=>array(
+				'id'=>'1113304996'
+		),
+		'contacto3'=>array(
+				'id'=>'29819777'
+		),
+		'contacto4'=>array(
+				'id'=>'56789'
+		),
+		'contacto5'=>array(
+				'id'=>'98765'
+		),
+		'borrar'=>array(
+				'id'=>'123'
+		)
+);
+?>

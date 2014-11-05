@@ -1,0 +1,8 @@
+<project name="Test" default="build" basedir=".">
+	<property name="output" location="${basedir}/buildOutput/"/>
+	<target name="test">
+		<exec executable="phpunit" failonerror="true">
+			<arg line="--verbose unit"/>
+		</exec>
+	</target>
+</project>

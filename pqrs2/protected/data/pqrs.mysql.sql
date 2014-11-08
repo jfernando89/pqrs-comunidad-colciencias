@@ -550,4 +550,190 @@ ALTER TABLE empresas
   ADD CONSTRAINT empresas_ibfk_1 FOREIGN KEY (nit) REFERENCES contactos (id),
   ADD CONSTRAINT empresas_ibfk_2 FOREIGN KEY (ciudad) REFERENCES ciudades (id);
 
+---------------------------------------------------------------------------------------------
+-- Tablas PQRS (BUILD 2)
 
+CREATE TABLE tipoUsuario (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL
+);
+
+INSERT INTO tipoUsuario (id, nombre) VALUES
+(1, 'Grupo de Atencion al Ciudadano'),
+(2, 'Ventanilla');
+
+  
+CREATE TABLE usuario (
+	id VARCHAR(15) NOT NULL PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	apellidos VARCHAR(30),
+	correo VARCHAR(30) NOT NULL,
+	tipo INTEGER NOT NULL,
+	FOREIGN KEY(tipo) REFERENCES tipoUsuario(id)
+);
+
+INSERT INTO usuario (id, nombre, apellidos, correo, tipo) VALUES
+('1','Responsable','','william.quiceno.restrepo@gmail.com', 1);
+
+
+CREATE TABLE tema (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	responsable VARCHAR(15) NOT NULL,
+	FOREIGN KEY(responsable) REFERENCES usuario(id)
+);
+
+INSERT INTO tema (id, nombre, responsable) VALUES
+(1,'Reclamo', '1'),
+(2,'Peticion de Interes Particular', '1'),
+(3,'Peticion de Interes General', '1'),
+(4,'Queja', '1'),
+(5,'Solicitud de Informacion', '1'),
+(6,'Sugerencia', '1'),
+(7,'Felicitaciones', '1'),
+(8,'Consulta', '1'),
+(9,'Manifestaciones', '1'),
+(10,'Solicitud de Copia', '1'),
+(11,'Derecho de Peticion', '1');
+  
+
+CREATE TABLE subtema (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL,
+	tema INTEGER NOT NULL,
+	FOREIGN KEY(tema) REFERENCES tema(id)
+);
+
+INSERT INTO subtema (tema,nombre) VALUES
+(1,'Reclamo de Investigador'),
+(1,'Reclamo de Proveedor'),
+(1,'Reclamo de Evento'),
+(2,'Peticion de Investigador'),
+(2,'Peticion de Proveedor'),
+(3,'Peticion de Evento'),
+(4,'Queja de Investigador'),
+(4,'Queja de Proveedor'),
+(4,'Queja de Evento'),
+(5,'Solicitud de Investigador'),
+(5,'Solicitud de Proveedor'),
+(5,'Solicitud de Evento'),
+(6,'Sugerencia de Investigador'),
+(6,'Sugerencia de Proveedor'),
+(6,'Sugerencia de Evento'),
+(7,'Felicitaciones de Investigador'),
+(7,'Felicitaciones de Proveedor'),
+(7,'Felicitaciones de Evento'),
+(8,'Consulta de Investigador'),
+(8,'Consulta de Proveedor'),
+(8,'Consulta de Evento'),
+(9,'Manifestacion de Investigador'),
+(9,'Manifestacion de Proveedor'),
+(9,'Manifestacion de Evento'),
+(10,'Solicitud de copia de Investigador'),
+(10,'Solicitud de copia de Proveedor'),
+(10,'Solicitud de copia de Evento'),
+(11,'Derecho de Peticion de Investigador'),
+(11,'Derecho de Peticion de Proveedor'),
+(11,'Derecho de Peticion de Evento');
+
+
+CREATE TABLE expediente (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	responsable VARCHAR(15) NOT NULL,
+	FOREIGN KEY(responsable) REFERENCES usuario(id)
+);
+
+INSERT INTO expediente (id, nombre, responsable) VALUES
+(1,'Juridico', '1'),
+(2,'Organizacional', '1'),
+(3,'Procesos de Negocio', '1'),
+(4,'Investigacion', '1'),
+(5,'Financiacion', '1'),
+(6,'Administracion', '1');
+
+
+CREATE TABLE dependencia (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	expediente INTEGER NOT NULL,
+	FOREIGN KEY(expediente) REFERENCES expediente(id)
+);
+
+INSERT INTO dependencia (nombre, expediente) VALUES
+('Procesos Legales',1),
+('Tutelas',1),
+('Demandas',1),
+('Mejoras',2),
+('Estructura Organizacional',2),
+('Gerencia',2),
+('Investigacion',3),
+('Eventos',3),
+('Apoyo Economico',3),
+('Electronica',4),
+('Software',4),
+('Biologia',4),
+('Quimica',4),
+('Lenguas Modernas',4),
+('Medicina',4),
+('Apps',5),
+('Nueva Empresa',5),
+('Contabilidad',6),
+('Gestion Humana',6),
+('Operaciones',6),
+('Archivo',6);
+
+
+CREATE TABLE respuesta (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY
+);
+
+
+CREATE TABLE pqrs (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	contacto VARCHAR(15) NOT NULL,
+	dependencia INTEGER NOT NULL,
+	subtema INTEGER NOT NULL,
+	folios INTEGER NOT NULL,
+	anexos INTEGER NOT NULL,
+	tipoAnexos VARCHAR(50) NOT NULL,
+	asunto VARCHAR(150) NOT NULL,
+	gac VARCHAR(15),
+	respuesta INTEGER,
+	FOREIGN KEY(contacto) REFERENCES contactos(id),
+	FOREIGN KEY(dependencia) REFERENCES dependencia(id),
+	FOREIGN KEY(subtema) REFERENCES subtema(id),
+	FOREIGN KEY(gac) REFERENCES usuario(id),
+	FOREIGN KEY(respuesta) REFERENCES respuesta(id)
+);
+
+
+CREATE TABLE operacion (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(20) NOT NULL
+);
+
+INSERT INTO operacion (id, nombre) VALUES
+(1, 'Radicado'),
+(2, 'Actualizado'),
+(3, 'Digitalizado'),
+(4, 'Incluido'),
+(5, 'Asignado'),
+(6, 'Revisado'),
+(7, 'Reasignado'),
+(8, 'Aprobado'),
+(9, 'Rechazado'),
+(10, 'Enviado');
+
+
+CREATE TABLE historico (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fecha DATE NOT NULL,
+	operacion INTEGER NOT NULL,
+	usuario VARCHAR(15) NOT NULL,
+	observacion VARCHAR(50),
+	pqrs INTEGER NOT NULL,
+	FOREIGN KEY(operacion) REFERENCES operacion(id),
+	FOREIGN KEY(usuario) REFERENCES usuario(id),
+	FOREIGN KEY(pqrs) REFERENCES pqrs(id)
+);

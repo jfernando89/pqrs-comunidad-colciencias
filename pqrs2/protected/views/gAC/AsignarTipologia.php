@@ -1,13 +1,12 @@
 <?php
-/* @var $this VentanillaController */
+/* @var $this GACController */
 
 $this->breadcrumbs=array(
-	'Ventanilla'=>array('/ventanilla'),
-	'ListaPQRSPendientesDigitalizar',
+	'GAC'=>array('/gAC'),
+	'AsignarTipologia',
 );
 ?>
-
-<h1>PQRS Pendientes de Digitalizar</h1>
+<h1>PQRS Pendientes de Categorizar</h1>
 
 <?php 
 	if ( isset($dataProvider) ) {
@@ -20,9 +19,6 @@ $this->breadcrumbs=array(
 					array('header'=>'Tipo de PQRS',
 						  'name'=>'subtema0.nombre'
 					),
-					array('header'=>'Usuario Asignado',
-						  'name'=>'gac0.nombre'
-					),
 					array('header'=>'Dependencia',
 						  'name'=>'dependencia0.nombre'
 					),
@@ -30,15 +26,15 @@ $this->breadcrumbs=array(
 						  'name'=>'contacto'
 					),
 					array('class'=>'CButtonColumn',
-						  'template' => '{file}',
+						  'template' => '{asignar}',
 						  'buttons'=>array(
-						        'file' => array
+						        'asignar' => array
 						        (						        	
-						            'label'=>'Subir Archivo',
-						        	'imageUrl' => Yii::app()->baseUrl . '/images/subir.png',
+						            'label'=>'Asignar Tipologia',
+						        	'imageUrl' => Yii::app()->baseUrl . '/images/editar.gif',
 // 						            'url'=>'"#"',
 // 						            'click'=>'function(){alert("id");}',
-						        		'url'=>'Yii::app()->createUrl("ventanilla/digitalizar", array("pqrs"=>$data->id))',
+						        		'url'=>'Yii::app()->createUrl("GAC/verAsignarTipologia", array("pqrs"=>$data->id))',
 // 						        		'options'=>array(
 // 						        				'ajax'=>array(
 // 						        						'type'=>'POST',

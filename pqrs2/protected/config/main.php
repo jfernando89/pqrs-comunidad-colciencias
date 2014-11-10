@@ -95,4 +95,5 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'william.quiceno.restrepo@gmail.com',
 	),
+
 );

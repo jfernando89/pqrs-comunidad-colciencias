@@ -2,5 +2,5 @@
 return array (
   'template' => 'default',
   'baseClass' => 'Controller',
-  'actions' => 'PrincipalVentanilla,BusquedaSeleccionContactos,ListaPQRSPendientesArchivar,ListaPQRSPendientesDigitalizar,CrearContacto,ListaComprobantesEntrega,RadicarPQRS',
+  'actions' => 'PrincipalGAC,AsignarTipologia,CrearRespuesta,IncluirExpediente,ListaRespuestasPendientesImprimir',
 );

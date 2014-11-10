@@ -18,6 +18,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.extensions.*',
+		'application.vendor.*'
 	),
 
 	'modules'=>array(
@@ -36,6 +38,11 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+		),
+		'MultiMailer' => array(
+				'class' => 'ext.MultiMailer.MultiMailer',
+				'setFromAddress' => 'william.quiceno.restrepo@gmail.com',
+				'setFromName' => 'Admin PQRS',
 		),
 		// uncomment the following to enable URLs in path-format
 		/*
@@ -60,7 +67,7 @@ return array(
 			'password' => '12345',
 			'charset' => 'utf8',
 		),
-
+			
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>'ventanilla/error',
@@ -86,6 +93,6 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'wi999iam@hotmail.com',
+		'adminEmail'=>'william.quiceno.restrepo@gmail.com',
 	),
 );

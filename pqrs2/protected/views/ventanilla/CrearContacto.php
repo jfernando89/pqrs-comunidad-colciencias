@@ -11,8 +11,6 @@ $this->breadcrumbs=array(
 ?>
 
 <script language="javascript">
-	
-
 	function tipoContactoChange(tipoContacto)	{   
 		var divs = document.getElementsByName("TipoContacto");
 		var div;
@@ -194,3 +192,4 @@ $this->breadcrumbs=array(
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+ 

@@ -9,7 +9,7 @@ body
 
 #page
 {
-	margin-top: 50px;
+	margin-top: 5px;
 	margin-bottom: 5px;
 	background: white;
 	border: 1px solid #C9E0ED;
@@ -24,7 +24,7 @@ body
 
 #content
 {
-    padding: 20px;
+    padding: 20px 50px;
 }
 
 #sidebar
@@ -226,4 +226,17 @@ div.search-form
 .operations li a:hover
 {
 	background: #80CFFF;
+}
+
+h1 {
+	text-align:	center;
+	padding-bottom: 30px;
+}
+
+.centered {
+	text-align: center;
+}
+
+.buttons {
+	padding-top: 40px;
 }

@@ -6,6 +6,34 @@ $this->breadcrumbs=array(
 	'BusquedaSeleccionContactos',
 );
 ?>
+<script language="javascript">
+	function radicarPQRS( id ) {
+		var tipoContacto = document.getElementById("ContactoForm_tipoId").value;
+		var tipo = 'Ciudadano';
+
+		if( tipoContacto == 1 )
+			tipo = 'Empresa';
+		 
+		var form = document.createElement("form");
+	    form.setAttribute("method", 'POST');
+	    form.setAttribute("action", 'index.php?r=ventanilla/radicarPQRS');
+
+        var hiddenField1 = document.createElement("input");
+        hiddenField1.setAttribute("type", "hidden");
+        hiddenField1.setAttribute("name", 'tipo');
+        hiddenField1.setAttribute("value", tipo);
+        form.appendChild(hiddenField1);
+
+        var hiddenField2 = document.createElement("input");
+        hiddenField2.setAttribute("type", "hidden");
+        hiddenField2.setAttribute("name", 'id');
+        hiddenField2.setAttribute("value", id);
+        form.appendChild(hiddenField2);
+
+	    document.body.appendChild(form);
+	    form.submit();		
+	}
+</script>
 
 <div class="form">
 
@@ -60,12 +88,7 @@ $this->breadcrumbs=array(
 						'name'=>'telefono'
 					),
 				),
-			    'selectionChanged'=>'function(id){'.
-										'var temp = $.fn.yiiGridView.getSelection(id);'.
-										'if(temp != null && temp.length > 0){'.
-											'location.href = "'.$this->createUrl('ventanilla/radicarPQRS').'&id="+$.fn.yiiGridView.getSelection(id)+"";'.
-										'}'.
-									'}'));
+				'selectionChanged'=>'function(id){radicarPQRS($.fn.yiiGridView.getSelection(id));}'));
 		?>
 		</div>
 <?php 

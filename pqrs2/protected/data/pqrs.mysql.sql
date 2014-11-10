@@ -681,7 +681,8 @@ INSERT INTO dependencia (nombre, expediente) VALUES
 ('Contabilidad',6),
 ('Gestion Humana',6),
 ('Operaciones',6),
-('Archivo',6);
+('Archivo',6),
+('GAC',6);
 
 
 CREATE TABLE respuesta (

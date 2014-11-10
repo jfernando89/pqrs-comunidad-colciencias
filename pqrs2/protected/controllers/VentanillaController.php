@@ -40,7 +40,7 @@ class VentanillaController extends Controller
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
 			else
-				$this->render('error', $error);
+				$this->render('error', $error, array('erro'=>$error['message']));
 		}
 	}
 	
@@ -64,6 +64,14 @@ class VentanillaController extends Controller
         }
     }
 
+    public function actionListaSubtemas() {
+    	$tema = (int) $_POST['RadicarPQRSForm']['tema'];
+    	$subtemas = CHtml::listData(Subtema::model()->findAll('tema =:tema', array(':tema'=>$tema)), 'id', 'nombre');
+    
+    	foreach ($subtemas as $valor => $subtema) {
+    		echo CHtml::tag('option', array('value'=>$valor), CHtml::encode($subtema), true);
+    	}
+    }
 	
 	public function actionBusquedaSeleccionContactos() {
 		$model = new ContactoForm;
@@ -169,14 +177,232 @@ class VentanillaController extends Controller
 		$this->render('ListaPQRSPendientesArchivar');
 	}
 
-	public function actionListaPQRSPendientesDigitalizar()
-	{
-		$this->render('ListaPQRSPendientesDigitalizar');
+	public function actionListaPQRSPendientesDigitalizar() {
+		// traer todos los pqrs
+		$pqrs = Pqrs::model()->with(array(
+										'subtema0',
+										'gac0',
+										'contacto0',
+										'dependencia0'))->findAll();   
+
+		// traer todos los que ya estan digitalizados
+		$digitalizados = Historico::model()->findAll('operacion=3');	// 3 = Digitalizado
+
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $digitalizados ); $j++ ) {
+				if( $digitalizados[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaPQRSPendientesDigitalizar',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionDigitalizar( $pqrs ) {
+		// crear el historico
+		$historico = new Historico;
+		$historico->fecha = date('Y/m/d');
+		$historico->operacion = 3; // Digitalizado
+		$historico->usuario = 2; // Ventanilla por defecto siempre 2
+		$historico->pqrs = $pqrs;
+		
+		$historico->save();
+		
+		// llamar de nuevo a la digitalizacion
+		$this->redirect('index.php?r=ventanilla/listaPQRSPendientesDigitalizar');
 	}
 
-	public function actionRadicarPQRS()
-	{
-		$this->render('RadicarPQRS');
+	public function actionRadicarPQRS()	{	
+		// por defecto
+		$model = new RadicarPQRSForm;
+		
+		if( isset( $_POST['RadicarPQRSForm'] ) ) {	
+ 			$model->attributes=$_POST['RadicarPQRSForm'];
+ 						
+			if($model->validate()) {	// pasa la validacion
+				$pqrs = new pqrs;
+				
+				if( isset( $_POST['RadicarPQRSForm']['id'] ) ) { // ciudadano
+					$pqrs->contacto = $_POST['RadicarPQRSForm']['id'];
+				}
+				else {  // empresa
+					$pqrs->contacto = $_POST['RadicarPQRSForm']['nit'];
+				}	
+				
+				$pqrs->dependencia = 22;	// GAC
+				$pqrs->subtema = $_POST['RadicarPQRSForm']['subtema'];
+				$pqrs->folios = $_POST['RadicarPQRSForm']['folios'];
+				$pqrs->anexos = $_POST['RadicarPQRSForm']['anexos'];
+				$pqrs->tipoAnexos = $_POST['RadicarPQRSForm']['tipoAnexos'];
+				$pqrs->asunto = $_POST['RadicarPQRSForm']['asunto'];
+
+				$pqrs->save();
+				
+				// crear el historico
+				$historico = new Historico;
+				$historico->fecha = date('Y/m/d');
+				$historico->operacion = 1; // Radicado
+				$historico->usuario = 1; // Responsable por defecto siempre 1
+				$historico->pqrs = $pqrs->id;
+				
+				$historico->save();
+				
+				// mandar el correo
+				
+				
+				// redireccionar a la pagina principal
+				$this->actionListaPQRSPendientesDigitalizar();
+				return;
+			}		
+			else {	// falla la validacion
+				$model->tipoPQRS = $_POST['RadicarPQRSForm']['tipoPQRS'];
+				$model->tipoId = $_POST['RadicarPQRSForm']['tipoId'];
+				
+				if( $model->tipoId != 'NIT' ) {
+					$model->id = $_POST['RadicarPQRSForm']['id'];
+					$model->nombres = $_POST['RadicarPQRSForm']['nombres'];
+					$model->primerApelldio = $_POST['RadicarPQRSForm']['primerApelldio'];
+					$model->segundoApellido = $_POST['RadicarPQRSForm']['segundoApellido'];
+					$model->direccion = $_POST['RadicarPQRSForm']['direccion'];
+					$model->correo = $_POST['RadicarPQRSForm']['correo'];
+					$model->telefono = $_POST['RadicarPQRSForm']['telefono'];
+				}
+				else {
+					$model->nit = $_POST['RadicarPQRSForm']['nit'];
+					$model->nombreEmpresa = $_POST['RadicarPQRSForm']['nombreEmpresa'];
+					$model->direccionEmpresa = $_POST['RadicarPQRSForm']['direccionEmpresa'];
+					$model->telefonoEmpresa = $_POST['RadicarPQRSForm']['telefonoEmpresa'];
+					$model->correoEmpresa = $_POST['RadicarPQRSForm']['correoEmpresa'];
+					$model->nombreContacto = $_POST['RadicarPQRSForm']['nombreContacto'];
+					$model->primerApellidoContacto = $_POST['RadicarPQRSForm']['primerApellidoContacto'];
+					$model->segundoApellidoContacto = $_POST['RadicarPQRSForm']['segundoApellidoContacto'];
+					$model->telefonoContacto = $_POST['RadicarPQRSForm']['telefonoContacto'];
+				}				
+				
+				$model->pais = $_POST['RadicarPQRSForm']['pais'];
+				$model->departamento = $_POST['RadicarPQRSForm']['departamento'];
+				$model->ciudad = $_POST['RadicarPQRSForm']['ciudad'];
+				$model->dependencia = $_POST['RadicarPQRSForm']['dependencia'];
+				$model->modoRecepcion = $_POST['RadicarPQRSForm']['modoRecepcion'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['tema'] ) )
+					$model->tema = $_POST['RadicarPQRSForm']['tema'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['subtema'] ) )
+					$model->subtema = $_POST['RadicarPQRSForm']['subtema'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['folios'] ) )
+					$model->folios = $_POST['RadicarPQRSForm']['folios'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['anexos'] ) )
+					$model->anexos = $_POST['RadicarPQRSForm']['anexos'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['tipoAnexos'] ) )
+					$model->tipoAnexos = $_POST['RadicarPQRSForm']['tipoAnexos'];
+				
+				if( isset( $_POST['RadicarPQRSForm']['asunto'] ) )
+					$model->asunto = $_POST['RadicarPQRSForm']['asunto'];
+				
+				// temas
+				$result = Tema::model()->findAll();
+				$temas = array();
+				
+				foreach( $result as $tema ) {
+					$temas[$tema->id] = $tema->nombre;
+				}
+				
+				// subtemas	
+				$subtemas;	
+				if( isset( $_POST['RadicarPQRSForm']['tema'] ) ) {
+					$result = Subtema::model()->findAll('tema='.$model->tema);
+					$subtemas = array();				
+					
+					foreach( $result as $subtema ) {
+						$subtemas[$subtema->id] = $subtema->nombre;
+					}
+				}
+				
+				// llamar la vista
+				$this->render('RadicarPQRS',array('model'=>$model,'temas'=>$temas,'subtemas'=>$subtemas));
+				return;
+			}	
+		}
+		
+		// primera vez que se muestra la pagina
+		$tipo = $_POST['tipo'];
+		$id = $_POST['id'];		
+		
+		$model->tipoPQRS = 'Fisico';
+		
+		if( $tipo == 'Ciudadano' ) {
+			$ciudadano = Ciudadanos::model()->find('id='.$id);
+			
+			$model->tipoId = $ciudadano->tipoId;
+			$model->id = $ciudadano->id;
+			$model->nombres = $ciudadano->nombres;
+			$model->primerApelldio = $ciudadano->primerApelldio;
+			$model->segundoApellido = $ciudadano->segundoApellido;
+			$model->direccion = $ciudadano->direccion;
+			$model->telefono = $ciudadano->telefono;
+			$model->correo = $ciudadano->correo;
+			$model->ciudad = $ciudadano->ciudad;
+		}
+		else {
+			$empresa = Empresas::model()->find('nit='.$id);
+			
+			$model->tipoId = 'NIT';
+			$model->nit = $empresa->nit;
+			$model->nombreEmpresa = $empresa->nombre;
+			$model->direccionEmpresa = $empresa->direccion;
+			$model->telefonoEmpresa = $empresa->telefono;
+			$model->correoEmpresa = $empresa->correo;
+			$model->ciudad = $empresa->ciudad;
+			$model->nombreContacto = $empresa->nombreContacto;
+			$model->primerApellidoContacto = $empresa->primerApellidoContacto;
+			$model->segundoApellidoContacto = $empresa->segundoApellidoContacto;
+			$model->telefonoContacto = $empresa->telefonoContacto;
+		}
+		
+		$ciudad = Ciudades::model()->find('id='.$model->ciudad);
+		$departamento = Departamentos::model()->find('id='.$ciudad->departamento);
+		$pais = Paises::model()->find('id='.$departamento->pais);
+		
+		$model->ciudad = $ciudad->nombre;
+		$model->departamento = $departamento->nombre;
+		$model->pais = $pais->nombre;
+		$model->dependencia = 'GAC';
+		$model->modoRecepcion = 'Ventanilla';
+
+		// temas
+		$result = Tema::model()->findAll();
+		$temas = array();
+		
+		foreach( $result as $tema ) {
+			$temas[$tema->id] = $tema->nombre;
+		}
+		
+		// subtemas
+		$subtemas = array();
+		
+		// llamar la vista
+		$this->render('RadicarPQRS',array('model'=>$model,'temas'=>$temas,'subtemas'=>$subtemas));
 	}
 
 	// Uncomment the following methods and override them if needed

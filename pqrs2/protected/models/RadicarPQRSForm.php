@@ -42,12 +42,9 @@ class RadicarPQRSForm extends CFormModel {
 	public function rules()
 	{
 		return [
-				[['tipoPQRS', 'tipoId', 'id', 'nombres', 'primerApelldio', 'segundoApellido',
-				  'direccion', 'telefono', 'correo', 'nit', 'nombreEmpresa', 'direccionEmpresa',
-				  'telefonoEmpresa', 'correoEmpresa', 'nombreContacto', 'primerApellidoContacto',
-				  'segundoApellidoContacto', 'telefonoContacto', 'pais', 'departamento', 'ciudad',
-				  'dependencia', 'modeRecepcion', 'tema', 'subtema', 'folios', 'anexos', 'tipoAnexos', 
+				[['subtema', 'folios', 'anexos', 'tipoAnexos', 
 				  'asunto' ], 'required'],
+				array('subtema, folios, anexos', 'numerical', 'integerOnly'=>true),
 		];
 	}
 	

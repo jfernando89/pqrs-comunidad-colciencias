@@ -27,7 +27,7 @@ class HistoricoTest extends CDbTestCase {
 		$historico->id = 2;
 		$historico->fecha = '2014/10/11';
 		$historico->operacion = 1;
-		$historico->usuario = '999';
+		$historico->usuario = '1';
 		$historico->observacion = 'Observacion adicional';
 		$historico->pqrs = 1;
 		$historico->save();

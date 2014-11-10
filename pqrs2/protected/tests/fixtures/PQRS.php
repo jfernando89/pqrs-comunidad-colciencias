@@ -7,7 +7,7 @@ return array(
 						'subtema'=>1,
 						'folios'=>3,
 						'anexos'=>3,
-						'tiposAnexos'=>'PDF',
+						'tipoAnexos'=>'PDF',
 						'asunto'=>'Inconformidad',
 						'gac'=>1,
 						'respuesta'=>''

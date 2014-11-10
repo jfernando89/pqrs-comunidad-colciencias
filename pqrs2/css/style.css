@@ -1,0 +1,26 @@
+.container {
+	width: 700px;
+	margin: auto;
+	margin-top: 50px;
+	height: 500px;
+	background-image: url('../images/orfeo.png');
+	position: relative;
+}
+
+.buttons {
+	position: absolute;
+	top: 330px;
+	left: 210px;
+}
+
+.buttons a {
+	padding: 6px;
+	margin-right: 10px;
+	border: 1px solid white;
+	text-decoration: none;
+	width:	130px;
+	height: 28px;
+	background-color: #FF9900;
+	color: white;
+	font-weight: bold;
+}

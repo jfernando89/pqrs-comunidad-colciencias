@@ -641,16 +641,19 @@ CREATE TABLE expediente (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre VARCHAR(30) NOT NULL,
 	responsable VARCHAR(15) NOT NULL,
+	asunto VARCHAR(50),
+	serie VARCHAR(30),
+	subserie VARCHAR(30),
 	FOREIGN KEY(responsable) REFERENCES usuario(id)
 );
 
 INSERT INTO expediente (id, nombre, responsable) VALUES
-(1,'Juridico', '1'),
-(2,'Organizacional', '1'),
-(3,'Procesos de Negocio', '1'),
-(4,'Investigacion', '1'),
-(5,'Financiacion', '1'),
-(6,'Administracion', '1');
+(1,'Juridico', '1','Asuntos Juridicos','serie juridica','subserie juridica'),
+(2,'Organizacional', '1','Asuntos Organizacionales','serie organizacional','subserie organizacional'),
+(3,'Procesos de Negocio', '1','Asuntos de Procesos de Negocio','serie procesos de negocio', 'subserie procesos de negocio'),
+(4,'Investigacion', '1','Asuntos de Investigacion','serie investigacion','subserie investigacion'),
+(5,'Financiacion', '1','Asuntos de Financiacion','serie financiacion','subserie financiacion'),
+(6,'Administracion', '1','Asuntos de Administracion','serie administracion','subserie administracion');
 
 
 CREATE TABLE dependencia (

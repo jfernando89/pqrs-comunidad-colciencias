@@ -120,9 +120,62 @@ class GACController extends Controller {
 		$this->render('CrearRespuesta');
 	}
 
-	public function actionIncluirExpediente()
-	{
-		$this->render('IncluirExpediente');
+	public function actionIncluirExpediente() {
+		// traer todos los pqrs
+		$pqrs = Pqrs::model()->with(array(
+										'subtema0',
+										'contacto0',				
+										'dependencia0'))->findAll();
+			
+		// traer todos los que ya estan digitalizados
+		$incluidos = Historico::model()->findAll('operacion=4');	// 4 = Incluido
+
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $incluidos ); $j++ ) {
+				if( $incluidos[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('IncluirExpediente',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionVerIncluirExpediente( $pqrs, $error = '' ) {
+		// por defecto
+		$model = new ExpedienteForm;
+	
+		// primera vez que se muestra la pagina
+		$pqrs = PQRS::model()->find('id='.$pqrs);
+			
+		$model->pqrs = $pqrs->id;
+		$model->expediente = 1;
+	
+		// obtener el nombre de la dependencia
+		$expedientes = Expediente::model()->findAll();
+	
+		$dependencias = array();
+		$usuarios = array();
+	
+		// llamar la vista
+		$this->render('VerIncluirExpediente',array('model'=>$model,'expedientes'=>$expedientes,
+												  'dependencias'=>$dependencias,'usuarios'=>$usuarios,'error'=>$error));
 	}
 
 	public function actionListaRespuestasPendientesImprimir()

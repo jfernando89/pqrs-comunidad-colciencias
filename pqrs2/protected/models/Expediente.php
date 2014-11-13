@@ -7,6 +7,9 @@
  * @property integer $id
  * @property string $nombre
  * @property string $responsable
+ * @property string $asunto
+ * @property string $serie
+ * @property string $subserie
  *
  * The followings are the available model relations:
  * @property Dependencia[] $dependencias
@@ -33,6 +36,9 @@ class Expediente extends CActiveRecord
 			array('nombre, responsable', 'required'),
 			array('nombre', 'length', 'max'=>30),
 			array('responsable', 'length', 'max'=>15),
+			array('asunto', 'length', 'max'=>50),
+			array('serie', 'length', 'max'=>30),
+			array('subserie', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, nombre, responsable', 'safe', 'on'=>'search'),
@@ -61,6 +67,9 @@ class Expediente extends CActiveRecord
 			'id' => 'ID',
 			'nombre' => 'Nombre',
 			'responsable' => 'Responsable',
+			'asunto' => 'Asunto',
+			'serie' => 'Serie',
+			'subserie' => 'Subserie',
 		);
 	}
 
@@ -85,6 +94,9 @@ class Expediente extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('nombre',$this->nombre,true);
 		$criteria->compare('responsable',$this->responsable,true);
+		$criteria->compare('asunto',$this->asunto,true);
+		$criteria->compare('serie',$this->serie,true);
+		$criteria->compare('subserie',$this->subserie,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

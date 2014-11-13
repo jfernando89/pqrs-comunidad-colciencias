@@ -329,8 +329,8 @@ class VentanillaController extends Controller
 				}
 				
 				// subtemas	
-				$subtemas;	
-				if( isset( $_POST['RadicarPQRSForm']['tema'] ) ) {
+				$subtemas = array();	
+				if( isset( $_POST['RadicarPQRSForm']['tema'] ) && strlen( $_POST['RadicarPQRSForm']['tema'] ) > 0 ) {
 					$result = Subtema::model()->findAll('tema='.$model->tema);
 					$subtemas = array();				
 					

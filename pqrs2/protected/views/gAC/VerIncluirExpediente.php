@@ -15,21 +15,13 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'pqrs',array('class'=>'span-5')); ?>
-		<span class="span-6"><?php echo $form->textField($model,'pqrs',array('readonly'=>'readonly')); ?></span>
+		<?php echo $form->textField($model,'pqrs',array('readonly'=>'readonly')); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'expediente',array('class'=>'span-5')); ?>
-		<span class="span-6"><?php echo $form->dropDownList($model,'expediente',$expedientes
-// 				, array(
-//             'ajax'=>array(
-//                 'type'=>'POST',
-//                 'url'=>$this->createUrl('listaDependencias'),
-//                 'update'=>'#' . CHtml::activeId($model, 'dependencia')
-//             ), 
-// 			 'prompt'=>' ',
-//         )
-		); ?></span>
+		<span class="span-6"><?php echo $form->dropDownList($model,'expediente', $expedientes, 
+								array('onchange'=>'this.form.submit()')); ?></span>
 		<?php echo $form->error($model,'expediente'); ?>
 
 		<?php echo $form->labelEx($model,'dependencia',array('class'=>'span-5')); ?>
@@ -59,10 +51,21 @@
 
 	<div class="clear"></div>
 	
+	<div class="row centered"><p class="error"><?php echo $error; ?></p></div>
+	
+	<input type="hidden" id="enviado" name="enviado" value="">
+	
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Incluir', array( 'class'=>'buttonPQR')); ?>
+		<?php echo CHtml::submitButton('Incluir', array( 'class'=>'buttonPQR', 'onclick'=>'actualizarEnviar()')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+		
+<script>
+function actualizarEnviar() { 
+	document.getElementById("enviado").value = "X";
+	document.getElementById("ExpedienteForm").submit();
+}
+</script>

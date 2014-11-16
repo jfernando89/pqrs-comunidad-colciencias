@@ -687,11 +687,84 @@ INSERT INTO dependencia (nombre, expediente) VALUES
 ('Archivo',6),
 ('GAC',6);
 
+----------------------------------------------------------------------------------------
+-- Respuesta
 
-CREATE TABLE respuesta (
-	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY
+CREATE TABLE plantilla (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL,
+	texto VARCHAR(1000) NOT NULL
 );
 
+INSERT INTO plantilla (id,nombre,texto) VALUES
+(1,'Respuesta Queja','Esta es una plantilla de respuesta tipica ante una queja'),
+(2,'Respuesta Consulta','Esta es una plantilla de respuesta tipica ante una consulta'),
+(3,'Respuesta Peticion','Esta es una plantilla de respuesta tipica ante una peticion');
+
+CREATE TABLE medio (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL
+);
+
+INSERT INTO medio (id,nombre) VALUES
+(1,'Tren'),
+(2,'Camion'),
+(3,'Avion');
+
+CREATE TABLE zona (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL
+);
+
+INSERT INTO zona (id,nombre) VALUES
+(1,'Zona 1'),
+(2,'Zona 2'),
+(3,'Zona 3');
+
+CREATE TABLE tipo_envio (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL
+);
+
+INSERT INTO tipo_envio (id,nombre) VALUES
+(1,'Local'),
+(2,'Nacional'),
+(3,'Internacional');
+
+CREATE TABLE resultado_envio (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(50) NOT NULL
+);
+
+INSERT INTO resultado_envio (id,nombre) VALUES
+(1,'Entregado Exitosamente'),
+(2,'Devuelto'),
+(3,'Direccion Incorrecta'),
+(4,'Rechazado');
+
+CREATE TABLE envio (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	medio INTEGER NOT NULL,
+	zona INTEGER NOT NULL,
+	tipo INTEGER NOT NULL,
+	guia VARCHAR(50) NOT NULL,
+	resultado INTEGER,
+	FOREIGN KEY(medio) REFERENCES medio(id),
+	FOREIGN KEY(zona) REFERENCES zona(id),
+	FOREIGN KEY(tipo) REFERENCES tipo_envio(id),
+	FOREIGN KEY(resultado) REFERENCES resultado_envio(id)
+);
+
+CREATE TABLE respuesta (
+	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fecha DATE NOT NULL,
+	texto VARCHAR(1000) NOT NULL,
+	envio INTEGER,
+	FOREIGN KEY(envio) REFERENCES envio(id)
+);
+
+-- Fin Respuesta
+----------------------------------------------------------------------------------------
 
 CREATE TABLE pqrs (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -727,7 +800,10 @@ INSERT INTO operacion (id, nombre) VALUES
 (7, 'Reasignado'),
 (8, 'Aprobado'),
 (9, 'Rechazado'),
-(10, 'Enviado');
+(10, 'Enviado'),
+(11, 'Archivado'),
+(12, 'Respondido'),
+(13, 'Respuesta Impresa');
 
 
 CREATE TABLE historico (

@@ -172,9 +172,56 @@ class VentanillaController extends Controller
 		$this->render('ListaComprobantesEntrega');
 	}
 
-	public function actionListaPQRSPendientesArchivar()
-	{
-		$this->render('ListaPQRSPendientesArchivar');
+	public function actionListaPQRSPendientesArchivar() {
+		// traer todos los pqrs
+		$pqrs = Pqrs::model()->with(array(
+										'subtema0',
+										'gac0',
+										'contacto0',
+										'dependencia0'))->findAll();   
+
+		// traer todos los que ya estan digitalizados
+		$archivados = Historico::model()->findAll('operacion=11');	// 11 = Archivado
+
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $archivados ); $j++ ) {
+				if( $archivados[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaPQRSPendientesArchivar',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionArchivar( $pqrs ) {
+		// crear el historico
+		$historico = new Historico;
+		$historico->fecha = date('Y/m/d');
+		$historico->operacion = 11; // Archivado
+		$historico->usuario = 2; // Ventanilla por defecto siempre 2
+		$historico->pqrs = $pqrs;
+	
+		$historico->save();
+	
+		// llamar de nuevo a la digitalizacion
+		$this->redirect('index.php?r=ventanilla/listaPQRSPendientesArchivar');
 	}
 
 	public function actionListaPQRSPendientesDigitalizar() {

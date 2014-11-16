@@ -5,9 +5,13 @@
  *
  * The followings are the available columns in table 'respuesta':
  * @property integer $id
+ * @property string $fecha
+ * @property string $texto
+ * @property integer $envio
  *
  * The followings are the available model relations:
  * @property Pqrs[] $pqrs
+ * @property Envio $envio0
  */
 class Respuesta extends CActiveRecord
 {
@@ -27,9 +31,12 @@ class Respuesta extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
+			array('fecha, texto', 'required'),
+			array('envio', 'numerical', 'integerOnly'=>true),
+			array('texto', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id', 'safe', 'on'=>'search'),
+			array('id, fecha, texto, envio', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -42,6 +49,7 @@ class Respuesta extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'pqrs' => array(self::HAS_MANY, 'Pqrs', 'respuesta'),
+			'envio0' => array(self::BELONGS_TO, 'Envio', 'envio'),
 		);
 	}
 
@@ -52,6 +60,9 @@ class Respuesta extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
+			'fecha' => 'Fecha',
+			'texto' => 'Texto',
+			'envio' => 'Envio',
 		);
 	}
 
@@ -74,6 +85,9 @@ class Respuesta extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
+		$criteria->compare('fecha',$this->fecha,true);
+		$criteria->compare('texto',$this->texto,true);
+		$criteria->compare('envio',$this->envio);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

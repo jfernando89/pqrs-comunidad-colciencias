@@ -19,12 +19,14 @@ class RespuestaTest extends CDbTestCase {
 	public function testSave() {
 		// validar que no existe el respuesta a guardar
 		$respuestaBuscar = new Respuesta;
-		$respuestaBuscar->id = '2';
+		$respuestaBuscar->id = 2;
 		$this->assertEquals( count( $respuestaBuscar->search()->getData() ), 0 );
 	
 		// guarda el respuesta
 		$respuesta = new Respuesta;
-		$respuesta->id = '2';
+		$respuesta->id = 2;
+		$respuesta->fecha = '2014/10/11';
+		$respuesta->texto = 'Texto de Respuesta';
 		$respuesta->save();
 	
 		$this->assertEquals( count( $respuestaBuscar->search()->getData() ), 1 );

@@ -6,7 +6,8 @@ $this->breadcrumbs=array(
 	'IncluirExpediente',
 );
 ?>
-<h1>PQRS Pendientes de Incluir a Expediente</h1>
+<h1>PQRS Disponibles para Incluir a Expediente</h1>
+<h2 class="h22 centered">Recuerde cambiar la dependencia por defecto (GAC) de los PQRS sin incluir a expediente</h2>
 
 <?php 
 	if ( isset($dataProvider) ) {

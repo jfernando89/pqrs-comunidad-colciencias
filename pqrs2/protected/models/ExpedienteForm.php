@@ -13,7 +13,8 @@ class ExpedienteForm extends CFormModel {
 	public function rules()
 	{
 		return [
-				[['pqrs','dependencia','usuario','expediente','asunto','serie','subserie'], 'required'],
+				[['dependencia','usuario'], 'required'],
 		];
 	}
+	
 }

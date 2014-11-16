@@ -250,6 +250,29 @@ class GACController extends Controller {
 			$this->redirect('index.php?r=GAC/IncluirExpediente');	
 		}
 	}
+	
+	public function actionPlantillas() {
+		$model = new PlantillaForm;
+		
+		if(isset($_POST['PlantillaForm'])){
+			$model->attributes = $_POST['PlantillaForm'];
+			
+			if($model->validate()){
+				$plantilla = new Plantilla;
+				$plantilla->nombre = $_POST['PlantillaForm']['nombre'];
+				$plantilla->texto = $_POST['PlantillaForm']['texto'];
+				$plantilla->save();
+				
+				$model = new PlantillaForm;
+			}
+		}
+		
+		// preparar la lista de plantillas actuales
+		$plantillas = Plantilla::model()->findAll();
+		$dataProvider = new CArrayDataProvider($plantillas);		
+		
+		$this->render('Plantillas',array('model'=>$model,'dataProvider'=>$dataProvider));
+	}
 
 	public function actionListaRespuestasPendientesImprimir()
 	{

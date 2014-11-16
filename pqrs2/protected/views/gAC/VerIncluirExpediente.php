@@ -55,7 +55,7 @@
 	
 	<input type="hidden" id="enviado" name="enviado" value="">
 	
-	<div class="row buttons">
+	<div class="row buttons centered">
 		<?php echo CHtml::submitButton('Incluir', array( 'class'=>'buttonPQR', 'onclick'=>'actualizarEnviar()')); ?>
 	</div>
 

@@ -34,6 +34,7 @@
 				array('label'=>'Principal', 'url'=>array('/GAC/PrincipalGAC')),
 				array('label'=>'Asignar Tipologia', 'url'=>array('/GAC/AsignarTipologia')),
 				array('label'=>'Incluir Expediente', 'url'=>array('/GAC/IncluirExpediente')),
+				array('label'=>'Plantillas', 'url'=>array('/GAC/Plantillas')),
 // 				array('label'=>'PQRS', 'url'=>array('/ventanilla/RadicarPQRS')),
 // 				array('label'=>'Digitalizar', 'url'=>array('/ventanilla/ListaPQRSPendientesDigitalizar')),
 // 				array('label'=>'Entregas', 'url'=>array('/ventanilla/ListaComprobantesEntrega')),

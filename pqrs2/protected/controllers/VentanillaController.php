@@ -167,11 +167,6 @@ class VentanillaController extends Controller
 
 	}
 
-	public function actionListaComprobantesEntrega()
-	{
-		$this->render('ListaComprobantesEntrega');
-	}
-
 	public function actionListaPQRSPendientesArchivar() {
 		// traer todos los pqrs
 		$pqrs = Pqrs::model()->with(array(
@@ -561,6 +556,67 @@ class VentanillaController extends Controller
 			
 		// llamar de nuevo a la digitalizacion
 		$this->redirect('index.php?r=ventanilla/listaRespuestasPendientesDigitalizar');
+	}
+	
+	public function actionListaComprobantesEntrega() {
+		// traer todos los pqrs respondidos
+		$pqrs = Pqrs::model()->with(array(
+				'respuesta0'))->findAll('respuesta IS NOT NULL AND respuesta0.envio IS NOT NULL');
+
+		// traer todos los que ya estan finalizados
+		$finalizados = Historico::model()->findAll('operacion=15');	// 15 = Finalizado
+
+		// eliminar de la lista los ya finalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $finalizados ); $j++ ) {
+				if( $finalizados[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaComprobantesEntrega',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionResultadoComprobante( $pqrs, $resultado ) {
+		// obtener el id de respuesta de este pqrs
+		$pqrs = PQRS::model()->find('id='.$pqrs);
+		
+		// obtener el id de envio de esta respuesta
+		$respuesta = Respuesta::model()->find('id='.$pqrs->respuesta);
+		
+		// traer el envio para actualizar
+		$envio = Envio::model()->find('id='.$respuesta->envio);
+		
+		//actualizar el envio
+		$envio->resultado = $resultado;
+		$envio->save();		
+		
+		// crear el historico
+		$historico = new Historico;
+		$historico->fecha = date('Y/m/d');
+		$historico->operacion = 15; // 15 = Finalizado
+		$historico->usuario = 2; // Ventanilla por defecto siempre 2
+		$historico->pqrs = $pqrs->id;	
+		$historico->save();
+			
+		// llamar de nuevo a la vista
+		$this->redirect('index.php?r=ventanilla/listaComprobantesEntrega');
 	}
 	
 	public function actionListaEnvios() {

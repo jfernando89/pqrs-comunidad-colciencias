@@ -550,7 +550,7 @@ ALTER TABLE empresas
   ADD CONSTRAINT empresas_ibfk_1 FOREIGN KEY (nit) REFERENCES contactos (id),
   ADD CONSTRAINT empresas_ibfk_2 FOREIGN KEY (ciudad) REFERENCES ciudades (id);
 
----------------------------------------------------------------------------------------------
+-- -------------------------------------------------------------------------------------------
 -- Tablas PQRS (BUILD 2)
 
 CREATE TABLE tipoUsuario (
@@ -647,7 +647,7 @@ CREATE TABLE expediente (
 	FOREIGN KEY(responsable) REFERENCES usuario(id)
 );
 
-INSERT INTO expediente (id, nombre, responsable) VALUES
+INSERT INTO expediente (id, nombre, responsable,asunto,serie,subserie) VALUES
 (1,'Juridico', '1','Asuntos Juridicos','serie juridica','subserie juridica'),
 (2,'Organizacional', '1','Asuntos Organizacionales','serie organizacional','subserie organizacional'),
 (3,'Procesos de Negocio', '1','Asuntos de Procesos de Negocio','serie procesos de negocio', 'subserie procesos de negocio'),
@@ -687,7 +687,7 @@ INSERT INTO dependencia (nombre, expediente) VALUES
 ('Archivo',6),
 ('GAC',6);
 
-----------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------
 -- Respuesta
 
 CREATE TABLE plantilla (
@@ -764,7 +764,7 @@ CREATE TABLE respuesta (
 );
 
 -- Fin Respuesta
-----------------------------------------------------------------------------------------
+-- --------------------------------------------------------------------------------------
 
 CREATE TABLE pqrs (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,

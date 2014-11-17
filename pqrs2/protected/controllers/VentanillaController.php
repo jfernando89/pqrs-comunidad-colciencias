@@ -451,31 +451,262 @@ class VentanillaController extends Controller
 		// llamar la vista
 		$this->render('RadicarPQRS',array('model'=>$model,'temas'=>$temas,'subtemas'=>$subtemas));
 	}
+	
+	public function actionListaRespuestasImpresion() {
+		// traer todos los pqrs respondidos
+		$pqrs = Pqrs::model()->with(array(
+									'respuesta0',
+									'contacto0'))->findAll('respuesta IS NOT NULL');
+				
+		// traer todos los que ya estan impresos
+		$respondidos = Historico::model()->findAll('operacion=13');	// 13 = Respuesta Impresa
 
-	// Uncomment the following methods and override them if needed
-	/*
-	public function filters()
-	{
-		// return the filter configuration for this controller, e.g.:
-		return array(
-			'inlineFilterName',
-			array(
-				'class'=>'path.to.FilterClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $respondidos ); $j++ ) {
+				if( $respondidos[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaRespuestasImpresion',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionImprimir( $pqrs ) {
+		// crear el historico
+		$historico = new Historico;
+		$historico->fecha = date('Y/m/d');
+		$historico->operacion = 13; // 13 = Respuesta Impresa
+		$historico->usuario = 2; // Ventanilla por defecto siempre 2
+		$historico->pqrs = $pqrs;
+		
+		$historico->save();
+		
+		$pqrs1 = Pqrs::model()->with(array(
+				'respuesta0',
+				'contacto0',
+				'dependencia0'))->find('t.id='. $pqrs);
+		
+		// imprimir PDF
+		$mPDF1 = Yii::app()->ePdf->mpdf();
+		$mPDF1->WriteHTML($this->renderPartial('ReporteRespuesta', array( 'pqrs'=>$pqrs, 'fecha'=>$pqrs1->respuesta0->fecha,
+																		  'respuesta'=>$pqrs1->respuesta, 'texto'=>$pqrs1->respuesta0->texto
+		 ), true));
+		$mPDF1->Output();
+		
+		// llamar de nuevo a la digitalizacion
+		$this->redirect('index.php?r=ventanilla/listaRespuestasImpresion');
+	}
+	
+	public function actionListaRespuestasPendientesDigitalizar() {
+		// traer todos los pqrs respondidos
+		$pqrs = Pqrs::model()->with(array(
+										'respuesta0',
+										'contacto0'))->findAll('respuesta IS NOT NULL');					
+		// traer todos los que ya estan impresos
+		$digitales = Historico::model()->findAll('operacion=14');	// 14 = Respuesta Digital
+
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $digitales ); $j++ ) {
+				if( $digitales[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaRespuestasPendientesDigitalizar',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionDigitalizarRespuesta( $pqrs ) {
+		// crear el historico
+		$historico = new Historico;
+		$historico->fecha = date('Y/m/d');
+		$historico->operacion = 14; // 13 = Respuesta Impresa
+		$historico->usuario = 2; // Ventanilla por defecto siempre 2
+		$historico->pqrs = $pqrs;
+	
+		$historico->save();	
+			
+		// llamar de nuevo a la digitalizacion
+		$this->redirect('index.php?r=ventanilla/listaRespuestasPendientesDigitalizar');
+	}
+	
+	public function actionListaEnvios() {
+		// traer todos los pqrs respondidos
+		$pqrs = Pqrs::model()->with(array(
+				'respuesta0',
+				'contacto0'))->findAll('respuesta IS NOT NULL');			
+		
+		// traer todos los que ya estan impresos
+		$enviados = Historico::model()->findAll('operacion=10');	// 10 = Enviado
+
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $enviados ); $j++ ) {
+				if( $enviados[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaEnvios',array('dataProvider'=>$dataProvider));
+	}
+	
+	public function actionEnviar() {
+		$model = new EnvioForm;
+	
+		if( !isset( $_POST['EnvioForm'] ) ) { // primera vez que se muestra la pagina
+			$model->pqrs = $_GET['pqrs'];
+				
+			$pqrs = PQRS::model()->with(array(
+					'respuesta0',
+					'contacto0',
+					'dependencia0'))->find('t.id=' . $model->pqrs);
+						
+			$model->respuesta = $pqrs->respuesta;
+
+			// medios
+			$result = Medio::model()->findAll();
+			$medios = array();
+			
+			foreach( $result as $medio ) {
+				$medios[$medio->id] = $medio->nombre;
+			}
+			
+			// zonas
+			$result = Zona::model()->findAll();
+			$zonas = array();
+				
+			foreach( $result as $zona ) {
+				$zonas[$zona->id] = $zona->nombre;
+			}
+			
+			// tipos
+			$result = TipoEnvio::model()->findAll();
+			$tipos = array();
+				
+			foreach( $result as $tipo ) {
+				$tipos[$tipo->id] = $tipo->nombre;
+			}			
+
+			$this->render('CrearEnvio',array('model'=>$model,'medios'=>$medios,'zonas'=>$zonas,'tipos'=>$tipos));
+			return;
+		}
+		
+		$model->attributes = $_POST['EnvioForm'];
+		
+		if( $model->validate() ) {	// datos validos
+			$envio = new Envio;
+			$envio->medio = $_POST['EnvioForm']['medio'];
+			$envio->zona = $_POST['EnvioForm']['zona'];
+			$envio->tipo = $_POST['EnvioForm']['tipo'];
+			$envio->guia = $_POST['EnvioForm']['guia'];
+			$envio->save();
+			
+			$envioGuardado = Envio::model()->with(array(
+					'medio0',
+					'zona0',
+					'tipo0'))->find(array( 'order'=>'t.id DESC',
+											'limit'=>1));
+			
+			$respuesta = Respuesta::model()->find('id=' . $_POST['EnvioForm']['respuesta']);
+			$respuesta->envio = $envioGuardado->id;
+			$respuesta->save();
+			
+			// crear el historico
+			$historico = new Historico;
+			$historico->fecha = date('Y/m/d');
+			$historico->operacion = 10; // Enviado
+			$historico->usuario = 2; // Ventanilla
+			$historico->pqrs = $_POST['EnvioForm']['pqrs'];
+			$historico->save();
+			
+			// imprimir PDF
+			$mPDF1 = Yii::app()->ePdf->mpdf();
+			$mPDF1->WriteHTML($this->renderPartial('ReporteEnvio', array( 'pqrs'=>$_POST['EnvioForm']['pqrs'], 
+																		  'respuesta'=>$_POST['EnvioForm']['respuesta'],
+																		  'medio'=>$envioGuardado->medio0->nombre, 
+																		  'zona'=>$envioGuardado->zona0->nombre,
+																		  'tipo'=>$envioGuardado->tipo0->nombre,
+																		  'guia'=>$envioGuardado->guia), true));
+			$mPDF1->Output();
+
+			$this->redirect('index.php?r=ventanilla/listaEnvios');	
+			return;
+		}
+		
+		// medios
+		$result = Medio::model()->findAll();
+		$medios = array();
+		
+		foreach( $result as $medio ) {
+			$medios[$medio->id] = $medio->nombre;
+		}
+		
+		// zonas
+		$result = Zona::model()->findAll();
+		$zonas = array();
+			
+		foreach( $result as $zona ) {
+			$zonas[$zona->id] = $zona->nombre;
+		}
+		
+		// tipos
+		$result = TipoEnvio::model()->findAll();
+		$tipos = array();
+			
+		foreach( $result as $tipo ) {
+			$tipos[$tipo->id] = $tipo->nombre;
+		}			
+
+		$this->render('CrearEnvio',array('model'=>$model,'medios'=>$medios,'zonas'=>$zonas,'tipos'=>$tipos));
 	}
 
-	public function actions()
-	{
-		// return external action classes, e.g.:
-		return array(
-			'action1'=>'path.to.ActionClass',
-			'action2'=>array(
-				'class'=>'path.to.AnotherActionClass',
-				'propertyName'=>'propertyValue',
-			),
-		);
-	}
-	*/
 }

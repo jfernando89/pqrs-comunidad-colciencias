@@ -39,6 +39,18 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+		'ePdf'=>array(
+			'class'=>'ext.yii-pdf.EYiiPdf',
+			'params'=>array(
+						'mpdf'=> array(
+					                'librarySourcePath' => 'application.vendor.mpdf.*',
+					                'constants'=> array(
+					                    	'_MPDF_TEMP_PATH' => Yii::getPathOfAlias('application.runtime'),
+					                ),
+					                'class'=>'mpdf'
+						)
+			)
+		),	
 		'MultiMailer' => array(
 				'class' => 'ext.MultiMailer.MultiMailer',
 				'setFromAddress' => 'william.quiceno.restrepo@gmail.com',

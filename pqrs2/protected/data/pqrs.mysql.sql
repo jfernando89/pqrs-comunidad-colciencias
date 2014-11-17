@@ -803,7 +803,9 @@ INSERT INTO operacion (id, nombre) VALUES
 (10, 'Enviado'),
 (11, 'Archivado'),
 (12, 'Respondido'),
-(13, 'Respuesta Impresa');
+(13, 'Respuesta Impresa'),
+(14,'Respuesta Digital'),
+(15,'Finalizado');
 
 
 CREATE TABLE historico (

@@ -114,10 +114,122 @@ class GACController extends Controller {
 			$this->actionVerAsignarTipologia($_POST['AsignarTipologiaPQRSForm']['pqrs'],'Debe Seleccionar un Subtema');
 		}
 	}
+	
+	public function actionListaPQRSPendientesRespuesta() {
+		// traer todos los pqrs
+		$pqrs = Pqrs::model()->with(array(
+				'subtema0',
+				'contacto0',
+				'dependencia0'))->findAll('gac IS NOT NULL');
+				
+		// traer todos los que ya estan digitalizados
+		$respondidos = Historico::model()->findAll('operacion=12');	// 12 = Respondidos
 
-	public function actionCrearRespuesta()
-	{
-		$this->render('CrearRespuesta');
+		// eliminar de la lista los ya digitalizados
+		$pqrs_temp = array();
+		$cont = 0;
+		$flag = false;
+		
+		for($i = 0; $i < count( $pqrs ); $i++) {
+			$flag = false;
+			
+			for( $j = 0; $j < count( $respondidos ); $j++ ) {
+				if( $respondidos[$j]->pqrs == $pqrs[$i]->id ) {
+					$flag = true;
+					break;
+				}
+			}
+			
+			if( $flag == false ) {
+				$pqrs_temp[$cont++] = $pqrs[$i];
+			}			
+		}
+		
+		// convertir a dataProvider
+    	$dataProvider=new CArrayDataProvider($pqrs_temp);
+
+    	// mostrar la vista correspondiente
+		$this->render('ListaPQRSPendientesRespuesta',array('dataProvider'=>$dataProvider));
+	}
+
+	public function actionCrearRespuesta() {
+		$model = new RespuestaForm;
+		
+		if( !isset( $_POST['RespuestaForm'] ) ) { // primera vez que se muestra la pagina
+			$model->pqrs = $_GET['pqrs'];
+			$model->tipoPQRS = 'Fisico'; // valor por defecto para este modulo
+			
+			$pqrs = PQRS::model()->with(array(
+											'subtema0',
+											'contacto0',
+											'dependencia0'))->find('t.id=' . $model->pqrs);
+			
+			$model->expediente = $pqrs->dependencia0->expediente;
+			
+			$expediente = Expediente::model()->find( 'id=' . $model->expediente );
+			
+			$model->asunto = $expediente->asunto;
+			$model->serie = $expediente->serie;
+			$model->subserie = $expediente->subserie;
+			$model->dependencia = $pqrs->dependencia0->nombre;
+			$model->modoRecepcion = 'Ventanilla';	// valor por defecto para este modulo
+			$model->subtema = $pqrs->subtema0->nombre;
+			$model->plantilla = 1;
+			
+			$result = Plantilla::model()->findAll();
+			$plantillas = array();
+			
+			foreach( $result as $plantilla ) {
+				$plantillas[$plantilla->id] = $plantilla->nombre;
+			}
+			
+			$model->texto = $result[0]->texto;
+
+			$this->render('CrearRespuesta',array('model'=>$model,'plantillas'=>$plantillas));
+			return;
+		}
+		
+		$model->attributes=$_POST['RespuestaForm'];
+		
+		if( $model->validate() ) {	// datos validos
+			$respuesta = new Respuesta;
+			$respuesta->fecha = date('Y/m/d');
+			$respuesta->texto = $model->texto;
+			$respuesta->save();
+			
+			$respuestaGuardada = Respuesta::model()->find(array( 'order'=>'id DESC',
+																 'limit'=>1));
+			
+			$pqrs = PQRS::model()->find('id='.$model->pqrs);
+			$pqrs->respuesta = $respuestaGuardada->id;
+			$pqrs->save();
+			
+			// crear el historico
+			$historico = new Historico;
+			$historico->fecha = date('Y/m/d');
+			$historico->operacion = 12; // Respondido
+			$historico->usuario = $pqrs->gac; 
+			$historico->pqrs = $pqrs->id;
+			$historico->save();
+
+			$this->redirect('index.php?r=GAC/ListaPQRSPendientesRespuesta');	
+			return;
+		}
+		
+		$result = Expediente::model()->findAll();
+		$plantillas = array();
+		
+		foreach( $result as $plantilla ) {
+			$plantillas[$plantilla->id] = $plantilla->nombre;
+		}
+			
+		$this->render('CrearRespuesta',array('model'=>$model,'plantillas'=>$plantillas));
+	}
+	
+	public function actionDevolverTextoPlantilla() {
+		$id = (int) $_POST['RespuestaForm']['plantilla'];
+		$plantilla = Plantilla::model()->find('id='.$id);
+		echo $plantilla->texto;
 	}
 
 	public function actionIncluirExpediente() {

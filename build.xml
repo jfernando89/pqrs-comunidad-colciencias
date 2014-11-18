@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Set some basic project information and targets -->
+<project name="pqrs2" default="build">
+ 
+<target name="build"
+   depends="phpunit"/>  
+   
+<target name="build-parallel"
+   depends="phpunit"/>
+ 
+<property environment="env"/>
+
+<!-- Kick off phpunit - this requires 3.4.1 because of assertType(), deprecated in 3.5.x and removed from 3.6.x. --> 
+ <target name="phpunit">
+  <exec dir="${basedir}/protected/tests" executable="phpunit" failonerror="true" description="Run unit tests with PHPUnit">
+  <env key="APPLICATION_ENV" value="testing"/>
+  <arg line="--verbose unit" />   
+  </exec>
+ </target>
+ 
+</project>

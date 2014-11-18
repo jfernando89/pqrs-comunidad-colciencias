@@ -16,7 +16,7 @@
   <env key="APPLICATION_ENV" value="testing"/>
   <arg line="/C" /> 
   <arg line="phpunit.bat" />    
-  <arg line="--verbose unit" />
+  <arg line="unit/CiudadanosTest" />
   </exec>
  </target>
  

@@ -7,6 +7,14 @@ $this->breadcrumbs=array(
 );
 ?>
 
+<?php 
+	foreach( Yii::app()->user->getFlashes() as $key => $message ) {
+		echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+	}
+
+	Yii::app()->clientScript->registerScript('myHideEffect','$(".flash-success").animate({opacity: 1.0}, 3000).fadeOut("slow");',CClientScript::POS_READY);
+?>
+
 <h1>Respuestas Pendientes de Digitalizar</h1>
 
 <?php 

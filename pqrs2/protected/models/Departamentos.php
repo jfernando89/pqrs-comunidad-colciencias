@@ -59,7 +59,7 @@ class Departamentos extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'pais' => 'Pais',
+			'pais' => 'País',
 			'nombre' => 'Nombre',
 		);
 	}

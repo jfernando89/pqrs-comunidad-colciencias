@@ -62,7 +62,7 @@ class Respuesta extends CActiveRecord
 			'id' => 'ID',
 			'fecha' => 'Fecha',
 			'texto' => 'Texto',
-			'envio' => 'Envio',
+			'envio' => 'Envío',
 		);
 	}
 

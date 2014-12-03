@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<h1>Crear Envio</h1>
+<h1>Crear Envío</h1>
 
 <div class="form">
 

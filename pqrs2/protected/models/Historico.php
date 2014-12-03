@@ -66,9 +66,9 @@ class Historico extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'fecha' => 'Fecha',
-			'operacion' => 'Operacion',
+			'operacion' => 'Operación',
 			'usuario' => 'Usuario',
-			'observacion' => 'Observacion',
+			'observacion' => 'Observación',
 			'pqrs' => 'Pqrs',
 		);
 	}

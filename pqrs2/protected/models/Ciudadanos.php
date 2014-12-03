@@ -38,7 +38,7 @@ class Ciudadanos extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('id, tipoId, nombres, primerApelldio, correo, ciudad', 'required'),
-			array('tipoId, ciudad', 'numerical', 'integerOnly'=>true),
+			array('id, tipoId, ciudad', 'numerical', 'integerOnly'=>true),
 			array('id', 'length', 'max'=>15),
 			array('nombres, primerApelldio, segundoApellido', 'length', 'max'=>30),
 			array('direccion', 'length', 'max'=>50),
@@ -70,14 +70,14 @@ class Ciudadanos extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'Numero de Identificacion:',
-			'tipoId' => 'Tipo de Identificacion:',
+			'id' => 'Número de Identificación:',
+			'tipoId' => 'Tipo de Identificación:',
 			'nombres' => 'Nombres:',
 			'primerApelldio' => 'Primer Apellido:',
 			'segundoApellido' => 'Segundo Apellido:',
-			'direccion' => 'Direccion:',
-			'telefono' => 'Telefono:',
-			'correo' => 'Correo Electronico:',
+			'direccion' => 'Dirección:',
+			'telefono' => 'Teléfono:',
+			'correo' => 'Correo Electrónico:',
 			'ciudad' => 'Ciudad:',
 		);
 	}
@@ -107,6 +107,7 @@ class Ciudadanos extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array('pageSize'=>1000),
 		));
 	}
 

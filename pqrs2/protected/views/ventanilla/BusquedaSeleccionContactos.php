@@ -8,6 +8,22 @@ $this->breadcrumbs=array(
 ?>
 <script language="javascript">
 	function radicarPQRS( id ) {
+
+		// validar que haya alguno seleccionado
+		var checks = document.getElementsByName("yw0_c0[]");
+		var alguno = false;
+		for( var i = 0; i < checks.length; i++ ) {
+			if( checks[i].checked ) {
+				alguno = true;
+				break;
+			}				
+		}
+
+		if( alguno == false ) {
+			return;
+		}
+		
+		// enviar la peticion
 		var tipoContacto = document.getElementById("ContactoForm_tipoId").value;
 		var tipo = 'Ciudadano';
 
@@ -35,6 +51,14 @@ $this->breadcrumbs=array(
 	}
 </script>
 
+<?php 
+	foreach( Yii::app()->user->getFlashes() as $key => $message ) {
+		echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+	}
+
+	Yii::app()->clientScript->registerScript('myHideEffect','$(".flash-success").animate({opacity: 1.0}, 3000).fadeOut("slow");',CClientScript::POS_READY);
+?>
+		
 <div class="form">
 
 <?php echo CHtml::beginForm($this->createUrl('busquedaSeleccionContactos')); ?>
@@ -45,7 +69,7 @@ $this->breadcrumbs=array(
 </div>
 
 <div class="row">
-<?php echo CHtml::activeLabel($model,'NIT / Cedula:',array('class'=>'span-3')); ?>
+<?php echo CHtml::activeLabel($model,'NIT / C&eacute;dula:',array('class'=>'span-3')); ?>
 <?php echo CHtml::activeTextField($model,'id'); ?>
 </div>
 
@@ -77,15 +101,15 @@ $this->breadcrumbs=array(
 		<?php $this->widget('zii.widgets.grid.CGridView', array('dataProvider'=>$dataProvider,
 				'columns'=>array(
 		        	array('class'=>'CCheckBoxColumn'),       
-		        	array('header'=>'NIT / Cedula',
-		        		  'name'=>'id'), 
+		        	array('name'=>'NIT / C&eacute;dula',
+		        		  'value'=>'$data->id'), 
 					array(          
 						'name'=>'Nombre',
 						'value'=>'$data->wholeName'
 					),
 					array(
-						'header'=>'Telefono',
-						'name'=>'telefono'
+						'name'=>'Tel&eacute;fono',
+						'value'=>'$data->telefono'
 					),
 				),
 				'selectionChanged'=>'function(id){radicarPQRS($.fn.yiiGridView.getSelection(id));}'));

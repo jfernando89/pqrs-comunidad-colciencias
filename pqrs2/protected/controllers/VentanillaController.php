@@ -113,39 +113,58 @@ class VentanillaController extends Controller
 		$model2 = new Empresas;
 		$model = new ContactoForm;
 		
+		// por defecto
+		$model->tipoContacto = 'Ciudadano';
+		
 		if(isset($_POST['ContactoForm']) && $_POST['ContactoForm']['tipoContacto']=='Ciudadano')
 		{
 			$model1->attributes=$_POST['Ciudadanos'];
 			if($model1->validate())
 			{
-				$contacto = new Contactos;
-				$contacto->id = $model1->id;
-				$contacto->save();
-				
-				$model1->save();
-				unset($_POST);
-				$this->actionBusquedaSeleccionContactos();
-				return;
+				$contactoEncontrado = Contactos::model()->find('id = "' . $model1->id . '"');
+				if( isset( $contactoEncontrado ) ) {
+					$model1->addError('id', 'Ciudadano ya registrado');
+				}
+				else {
+					$contacto = new Contactos;
+					$contacto->id = $model1->id;
+					$contacto->save();
+					
+					$model1->save();
+					unset($_POST);
+					
+					Yii::app()->user->setFlash('success','Contacto creado exitosamente');
+					$this->actionBusquedaSeleccionContactos();
+					return;
+				}				
 			}
 		}
 		else if(isset($_POST['ContactoForm']) && $_POST['ContactoForm']['tipoContacto']=='Empresa') {
 			$model2->attributes=$_POST['Empresas'];
+			$model2->ciudad = $_POST['Ciudadanos']['ciudad'];
 			if($model2->validate())
 			{
-				$contacto = new Contactos;
-				$contacto->id = $model2->id;
-				$contacto->save();
-				
-				$model2->save();
-				unset($_POST);
-				$this->actionBusquedaSeleccionContactos();
-				return;
+				$contactoEncontrado = Contactos::model()->find('id = "' . $model2->id . '"');
+				if( isset( $contactoEncontrado ) ) {
+					// por defecto
+					$model->tipoContacto = 'Empresa';
+					$model2->addError('nit', 'Empresa ya registrada');
+				}
+				else {
+					$contacto = new Contactos;
+					$contacto->id = $model2->id;
+					$contacto->save();
+					
+					$model2->save();
+					unset($_POST);
+					
+					Yii::app()->user->setFlash('success','Contacto creado exitosamente');
+					$this->actionBusquedaSeleccionContactos();
+					return;
+				}
 			}
 		}
-		
-		// por defecto
-		$model->tipoContacto = 'Ciudadano';
-				
+						
 		// lista de tipos de documentos
 		$result = TiposDocumento::model()->findAll();
 		$tiposId = array();
@@ -216,6 +235,7 @@ class VentanillaController extends Controller
 		$historico->save();
 	
 		// llamar de nuevo a la digitalizacion
+		Yii::app()->user->setFlash('success','PQRS ' . $pqrs . ' archivada exitosamente');
 		$this->redirect('index.php?r=ventanilla/listaPQRSPendientesArchivar');
 	}
 
@@ -268,6 +288,7 @@ class VentanillaController extends Controller
 		$historico->save();
 		
 		// llamar de nuevo a la digitalizacion
+		Yii::app()->user->setFlash('success','PQRS ' . $pqrs . ' digitalizada exitosamente');
 		$this->redirect('index.php?r=ventanilla/listaPQRSPendientesDigitalizar');
 	}
 
@@ -306,10 +327,10 @@ class VentanillaController extends Controller
 				
 				$historico->save();
 				
-				// mandar el correo
-				
+				// mandar el correo				
 				
 				// redireccionar a la pagina principal
+				Yii::app()->user->setFlash('success','PQRS ' . $pqrs->id . ' creada exitosamente');
 				$this->actionListaPQRSPendientesDigitalizar();
 				return;
 			}		
@@ -391,7 +412,7 @@ class VentanillaController extends Controller
 		$tipo = $_POST['tipo'];
 		$id = $_POST['id'];		
 		
-		$model->tipoPQRS = 'Fisico';
+		$model->tipoPQRS = 'Físico';
 		
 		if( $tipo == 'Ciudadano' ) {
 			$ciudadano = Ciudadanos::model()->find('id='.$id);
@@ -407,7 +428,7 @@ class VentanillaController extends Controller
 			$model->ciudad = $ciudadano->ciudad;
 		}
 		else {
-			$empresa = Empresas::model()->find('nit='.$id);
+			$empresa = Empresas::model()->find('nit = "'.$id . '"');
 			
 			$model->tipoId = 'NIT';
 			$model->nit = $empresa->nit;
@@ -555,6 +576,7 @@ class VentanillaController extends Controller
 		$historico->save();	
 			
 		// llamar de nuevo a la digitalizacion
+		Yii::app()->user->setFlash('success','Respuesta a la PQRS ' . $pqrs . ' digitalizada exitosamente');
 		$this->redirect('index.php?r=ventanilla/listaRespuestasPendientesDigitalizar');
 	}
 	
@@ -616,6 +638,7 @@ class VentanillaController extends Controller
 		$historico->save();
 			
 		// llamar de nuevo a la vista
+		Yii::app()->user->setFlash('success','Resultado entrega registrado exitosamente');
 		$this->redirect('index.php?r=ventanilla/listaComprobantesEntrega');
 	}
 	
@@ -734,6 +757,7 @@ class VentanillaController extends Controller
 																		  'guia'=>$envioGuardado->guia), true));
 			$mPDF1->Output();
 
+			Yii::app()->user->setFlash('success','Envio de respuesta para la PQRS ' . $historico->pqrs . ' exitoso');
 			$this->redirect('index.php?r=ventanilla/listaEnvios');	
 			return;
 		}

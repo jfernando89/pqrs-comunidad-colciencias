@@ -1,5 +1,5 @@
 --
--- Base de datos: 'pqrs'
+-- Base de datos: 'pqrs2'
 --
 
 -- --------------------------------------------------------
@@ -139,37 +139,37 @@ INSERT INTO ciudades (id, departamento, nombre) VALUES
 (96, 95, 'Cualquiera'),
 (97, 96, 'Cualquiera'),
 (98, 97, 'Cualquiera'),
-(99, 98, 'Medellin'),
+(99, 98, 'Medellín'),
 (100, 99, 'Manizales'),
 (101, 100, 'Pereira'),
 (102, 101, 'Barranquilla'),
 (103, 102, 'Cartagena'),
-(104, 103, 'Monteria'),
-(105, 104, 'San Andres'),
+(104, 103, 'Montería'),
+(105, 104, 'San Andrés'),
 (106, 105, 'Sincelejo'),
 (107, 106, 'Arauca'),
 (108, 107, 'Tunja'),
 (109, 108, 'Yopal'),
 (110, 109, 'Leticia'),
 (111, 110, 'Florencia'),
-(112, 111, 'Popayan'),
-(113, 112, 'Quibdo'),
-(114, 113, 'Puerto Inirida'),
-(115, 114, 'San Jose del Guaviare'),
+(112, 111, 'Popayán'),
+(113, 112, 'Quibdó'),
+(114, 113, 'Puerto Inírida'),
+(115, 114, 'San José del Guaviare'),
 (116, 115, 'Pasto'),
 (117, 116, 'Mocoa'),
 (118, 117, 'Cali'),
-(119, 118, 'Mitu'),
-(120, 119, 'Bogota'),
+(119, 118, 'Mitú'),
+(120, 119, 'Bogotá'),
 (121, 120, 'Villavicencio'),
 (122, 121, 'Puerto Carreno'),
 (123, 122, 'Valledupar'),
 (124, 123, 'Riohacha'),
 (125, 124, 'Santa Marta'),
-(126, 125, 'Cucuta'),
+(126, 125, 'Cúcuta'),
 (127, 126, 'Bucaramanga'),
 (128, 127, 'Neiva'),
-(129, 128, 'Ibague'),
+(129, 128, 'Ibagué'),
 (130, 98, 'Otra'),
 (131, 99, 'Otra'),
 (132, 100, 'Otra'),
@@ -244,7 +244,7 @@ CREATE TABLE IF NOT EXISTS departamentos (
 --
 
 INSERT INTO departamentos (id, pais, nombre) VALUES
-(5, 10, 'Quindio'),
+(5, 10, 'Quindío'),
 (10, 1, 'Cualquiera'),
 (11, 2, 'Cualquiera'),
 (12, 3, 'Cualquiera'),
@@ -335,10 +335,10 @@ INSERT INTO departamentos (id, pais, nombre) VALUES
 (98, 10, 'Antioquia'),
 (99, 10, 'Caldas'),
 (100, 10, 'Risaralda'),
-(101, 10, 'Atlantico'),
-(102, 10, 'Bolivar'),
-(103, 10, 'Cordoba'),
-(104, 10, 'San Andres y Providencia'),
+(101, 10, 'Atlántico'),
+(102, 10, 'Bolívar'),
+(103, 10, 'Córdoba'),
+(104, 10, 'San Andrés y Providencia'),
 (105, 10, 'Sucre'),
 (106, 10, 'Arauca'),
 (107, 10, 'Boyaca'),
@@ -346,13 +346,13 @@ INSERT INTO departamentos (id, pais, nombre) VALUES
 (109, 10, 'Amazonas'),
 (110, 10, 'Caqueta'),
 (111, 10, 'Cauca'),
-(112, 10, 'Choco'),
-(113, 10, 'Guainia'),
+(112, 10, 'Chocó'),
+(113, 10, 'Guainía'),
 (114, 10, 'Guaviare'),
-(115, 10, 'Narino'),
+(115, 10, 'Nariño'),
 (116, 10, 'Putumayo'),
 (117, 10, 'Valle del Cauca'),
-(118, 10, 'Vaupes'),
+(118, 10, 'Vaupés'),
 (119, 10, 'Cundinamarca'),
 (120, 10, 'Meta'),
 (121, 10, 'Vichada'),
@@ -415,23 +415,23 @@ INSERT INTO paises (id, nombre) VALUES
 (4, 'Paraguay'),
 (5, 'Brasil'),
 (6, 'Bolivia'),
-(7, 'Peru'),
+(7, 'Perú'),
 (8, 'Ecuador'),
 (9, 'Venezuela'),
 (10, 'Colombia'),
-(11, 'Panama'),
+(11, 'Panamá'),
 (12, 'Costa Rica'),
-(13, 'Costa Rica'),
+(13, 'Guayana'),
 (14, 'Nicaragua'),
 (15, 'Guatemala'),
 (16, 'El salvador'),
-(17, 'Mexico'),
+(17, 'México'),
 (18, 'Estados Unidos'),
-(19, 'Canada'),
+(19, 'Canadá'),
 (20, 'Cuba'),
 (21, 'Puerto Rico'),
-(22, 'Haiti'),
-(23, 'Sudafrica'),
+(22, 'Haití'),
+(23, 'Sudáfrica'),
 (24, 'Nigeria'),
 (25, 'Marruecos'),
 (26, 'Libia'),
@@ -440,21 +440,21 @@ INSERT INTO paises (id, nombre) VALUES
 (29, 'Costa de Marfil'),
 (30, 'Somalia'),
 (31, 'Uganda'),
-(32, 'Republica de Congo'),
+(32, 'República de Congo'),
 (33, 'Arabia Saudita'),
 (34, 'Emiratos Arabes Unidos'),
-(35, 'Oman'),
-(36, 'Yemen'),
+(35, 'Omán'),
+(36, 'Yemén'),
 (37, 'Israel'),
 (38, 'Letonia'),
 (39, 'Lituania'),
-(40, 'Libano'),
+(40, 'Líbano'),
 (41, 'Siria'),
-(42, 'Iran'),
+(42, 'Irán'),
 (43, 'Irak'),
-(44, 'Turquia'),
-(45, 'Pakistan'),
-(46, 'Afganistan'),
+(44, 'Turquía'),
+(45, 'Pakistán'),
+(46, 'Afganistán'),
 (47, 'Brunei'),
 (48, 'Sri Lanka'),
 (49, 'China'),
@@ -462,7 +462,7 @@ INSERT INTO paises (id, nombre) VALUES
 (51, 'Hong Kong'),
 (52, 'Indonesia'),
 (53, 'Nueva Zelanda'),
-(54, 'Japon'),
+(54, 'Japón'),
 (55, 'Australia'),
 (56, 'Rusia'),
 (57, 'Corea del Sur'),
@@ -479,18 +479,18 @@ INSERT INTO paises (id, nombre) VALUES
 (68, 'Montenegro'),
 (69, 'Bosnia '),
 (70, 'Bulgaria'),
-(71, 'Rumania'),
+(71, 'Rumanía'),
 (72, 'Hungria'),
-(73, 'Republica Checa'),
+(73, 'República Checa'),
 (74, 'Eslovenia'),
 (75, 'Eslovaquia'),
 (76, 'Austria'),
 (77, 'Italia'),
 (78, 'Francia'),
 (79, 'Albania'),
-(80, 'Espana'),
+(80, 'España'),
 (81, 'Portugal'),
-(82, 'Belgica'),
+(82, 'Bélgica'),
 (83, 'Luxemburgo'),
 (84, 'Holanda'),
 (85, 'Dinamarca'),
@@ -515,9 +515,9 @@ CREATE TABLE IF NOT EXISTS tipos_documento (
 --
 
 INSERT INTO tipos_documento (id, nombre) VALUES
-(3, 'Cedula de Ciudadania'),
+(3, 'Cédula de Ciudadanía'),
 (4, 'Tarjeta de Identidad'),
-(5, 'Cedula de Extranjeria');
+(5, 'Cédula de Extranjería');
 
 --
 -- Restricciones para tablas volcadas
@@ -559,7 +559,7 @@ CREATE TABLE tipoUsuario (
 );
 
 INSERT INTO tipoUsuario (id, nombre) VALUES
-(1, 'Grupo de Atencion al Ciudadano'),
+(1, 'Grupo de Atención al Ciudadano'),
 (2, 'Ventanilla');
 
   
@@ -573,7 +573,8 @@ CREATE TABLE usuario (
 );
 
 INSERT INTO usuario (id, nombre, apellidos, correo, tipo) VALUES
-('1','Responsable','','william.quiceno.restrepo@gmail.com', 1);
+('1','GAC','','william.quiceno.restrepo@gmail.com', 1),
+('2','Ventanilla','','william.quiceno.restrepo@gmail.com', 2);
 
 
 CREATE TABLE tema (
@@ -585,16 +586,16 @@ CREATE TABLE tema (
 
 INSERT INTO tema (id, nombre, responsable) VALUES
 (1,'Reclamo', '1'),
-(2,'Peticion de Interes Particular', '1'),
-(3,'Peticion de Interes General', '1'),
+(2,'Petición de Interés Particular', '1'),
+(3,'Petición de Interés General', '1'),
 (4,'Queja', '1'),
-(5,'Solicitud de Informacion', '1'),
+(5,'Solicitud de Información', '1'),
 (6,'Sugerencia', '1'),
 (7,'Felicitaciones', '1'),
 (8,'Consulta', '1'),
 (9,'Manifestaciones', '1'),
 (10,'Solicitud de Copia', '1'),
-(11,'Derecho de Peticion', '1');
+(11,'Derecho de Petición', '1');
   
 
 CREATE TABLE subtema (
@@ -608,9 +609,9 @@ INSERT INTO subtema (tema,nombre) VALUES
 (1,'Reclamo de Investigador'),
 (1,'Reclamo de Proveedor'),
 (1,'Reclamo de Evento'),
-(2,'Peticion de Investigador'),
-(2,'Peticion de Proveedor'),
-(3,'Peticion de Evento'),
+(2,'Petición de Investigador'),
+(2,'Petición de Proveedor'),
+(3,'Petición de Evento'),
 (4,'Queja de Investigador'),
 (4,'Queja de Proveedor'),
 (4,'Queja de Evento'),
@@ -626,15 +627,15 @@ INSERT INTO subtema (tema,nombre) VALUES
 (8,'Consulta de Investigador'),
 (8,'Consulta de Proveedor'),
 (8,'Consulta de Evento'),
-(9,'Manifestacion de Investigador'),
-(9,'Manifestacion de Proveedor'),
-(9,'Manifestacion de Evento'),
+(9,'Manifestación de Investigador'),
+(9,'Manifestación de Proveedor'),
+(9,'Manifestación de Evento'),
 (10,'Solicitud de copia de Investigador'),
 (10,'Solicitud de copia de Proveedor'),
 (10,'Solicitud de copia de Evento'),
-(11,'Derecho de Peticion de Investigador'),
-(11,'Derecho de Peticion de Proveedor'),
-(11,'Derecho de Peticion de Evento');
+(11,'Derecho de Petición de Investigador'),
+(11,'Derecho de Petición de Proveedor'),
+(11,'Derecho de Petición de Evento');
 
 
 CREATE TABLE expediente (
@@ -648,12 +649,12 @@ CREATE TABLE expediente (
 );
 
 INSERT INTO expediente (id, nombre, responsable,asunto,serie,subserie) VALUES
-(1,'Juridico', '1','Asuntos Juridicos','serie juridica','subserie juridica'),
+(1,'Jurídico', '1','Asuntos Jurídicos','serie jurídica','subserie jurídica'),
 (2,'Organizacional', '1','Asuntos Organizacionales','serie organizacional','subserie organizacional'),
 (3,'Procesos de Negocio', '1','Asuntos de Procesos de Negocio','serie procesos de negocio', 'subserie procesos de negocio'),
-(4,'Investigacion', '1','Asuntos de Investigacion','serie investigacion','subserie investigacion'),
-(5,'Financiacion', '1','Asuntos de Financiacion','serie financiacion','subserie financiacion'),
-(6,'Administracion', '1','Asuntos de Administracion','serie administracion','subserie administracion');
+(4,'Investigación', '1','Asuntos de Investigación','serie investigación','subserie investigación'),
+(5,'Financiación', '1','Asuntos de Financiación','serie financiación','subserie financiación'),
+(6,'Administración', '1','Asuntos de Administración','serie administración','subserie administración');
 
 
 CREATE TABLE dependencia (
@@ -670,19 +671,19 @@ INSERT INTO dependencia (nombre, expediente) VALUES
 ('Mejoras',2),
 ('Estructura Organizacional',2),
 ('Gerencia',2),
-('Investigacion',3),
+('Investigación',3),
 ('Eventos',3),
-('Apoyo Economico',3),
-('Electronica',4),
+('Apoyo Económico',3),
+('Electrónica',4),
 ('Software',4),
-('Biologia',4),
-('Quimica',4),
+('Biología',4),
+('Química',4),
 ('Lenguas Modernas',4),
 ('Medicina',4),
 ('Apps',5),
 ('Nueva Empresa',5),
 ('Contabilidad',6),
-('Gestion Humana',6),
+('Gestión Humana',6),
 ('Operaciones',6),
 ('Archivo',6),
 ('GAC',6);
@@ -697,9 +698,9 @@ CREATE TABLE plantilla (
 );
 
 INSERT INTO plantilla (id,nombre,texto) VALUES
-(1,'Respuesta Queja','Esta es una plantilla de respuesta tipica ante una queja'),
-(2,'Respuesta Consulta','Esta es una plantilla de respuesta tipica ante una consulta'),
-(3,'Respuesta Peticion','Esta es una plantilla de respuesta tipica ante una peticion');
+(1,'Respuesta Queja','Esta es una plantilla de respuesta típica ante una queja'),
+(2,'Respuesta Consulta','Esta es una plantilla de respuesta típica ante una consulta'),
+(3,'Respuesta Petición','Esta es una plantilla de respuesta típica ante una petición');
 
 CREATE TABLE medio (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -707,9 +708,9 @@ CREATE TABLE medio (
 );
 
 INSERT INTO medio (id,nombre) VALUES
-(1,'Tren'),
-(2,'Camion'),
-(3,'Avion');
+(1,'Trén'),
+(2,'Camión'),
+(3,'Avión');
 
 CREATE TABLE zona (
 	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -739,7 +740,7 @@ CREATE TABLE resultado_envio (
 INSERT INTO resultado_envio (id,nombre) VALUES
 (1,'Entregado Exitosamente'),
 (2,'Devuelto'),
-(3,'Direccion Incorrecta'),
+(3,'Dirección Incorrecta'),
 (4,'Rechazado');
 
 CREATE TABLE envio (

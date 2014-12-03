@@ -26,6 +26,18 @@ $this->breadcrumbs=array(
 		    div.style.display = 'block';
 	    }
 	}
+
+	window.onload = function() {
+		var radio = document.getElementById("ContactoForm_tipoContacto_0");
+
+		if( radio.checked ) {
+			tipoContactoChange( radio.value );
+		}
+		else {
+			radio = document.getElementById("ContactoForm_tipoContacto_1");
+			tipoContactoChange( radio.value );
+		}
+	}
 </script>
 	    
 <div class="form">

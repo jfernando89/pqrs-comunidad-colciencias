@@ -71,7 +71,7 @@ class Envio extends CActiveRecord
 			'medio' => 'Medio',
 			'zona' => 'Zona',
 			'tipo' => 'Tipo',
-			'guia' => 'Guia',
+			'guia' => 'Guía',
 			'resultado' => 'Resultado',
 		);
 	}

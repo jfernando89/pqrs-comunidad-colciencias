@@ -47,7 +47,7 @@ class GACController extends Controller {
 		$model = new AsignarTipologiaPQRSForm;
 
 		// primera vez que se muestra la pagina
-		$model->tipoPQRS = 'Fisico';
+		$model->tipoPQRS = 'Físico';
 		
 		$pqrs = PQRS::model()->find('id='.$pqrs);
 			
@@ -108,6 +108,7 @@ class GACController extends Controller {
 			$historico->pqrs = $_POST['AsignarTipologiaPQRSForm']['pqrs'];			
 			$historico->save();
 			
+			Yii::app()->user->setFlash('success','PQRS ' . $historico->pqrs . ' actualizada exitosamente');
 			$this->redirect('index.php?r=GAC/AsignarTipologia');
 		}
 		else {
@@ -157,7 +158,7 @@ class GACController extends Controller {
 		
 		if( !isset( $_POST['RespuestaForm'] ) ) { // primera vez que se muestra la pagina
 			$model->pqrs = $_GET['pqrs'];
-			$model->tipoPQRS = 'Fisico'; // valor por defecto para este modulo
+			$model->tipoPQRS = 'Físico'; // valor por defecto para este modulo
 			
 			$pqrs = PQRS::model()->with(array(
 											'subtema0',
@@ -212,6 +213,7 @@ class GACController extends Controller {
 			$historico->pqrs = $pqrs->id;
 			$historico->save();
 
+			Yii::app()->user->setFlash('success','Respuesta para la PQRS ' . $historico->pqrs . ' creada exitosamente');
 			$this->redirect('index.php?r=GAC/ListaPQRSPendientesRespuesta');	
 			return;
 		}
@@ -283,12 +285,38 @@ class GACController extends Controller {
 		$result = Expediente::model()->findAll();
 		$expedientes = array();
 		
+		$id1 = "";
+		$cont = 0;
 		foreach( $result as $expediente ) {
 			$expedientes[$expediente->id] = $expediente->nombre;
+			
+			if( $expediente->id == $model->expediente ) {
+				$model->asunto = $expediente->asunto;
+				$model->serie = $expediente->serie;
+				$model->subserie = $expediente->subserie;
+			}
+			
+			if( $cont == 0 ) {
+				$id1 = $expediente->id;
+				$cont++;
+			}
+		}
+		
+		// dependencias
+		$result = Dependencia::model()->findAll( 'expediente = "' . $id1 . '"' );
+		$dependencias = array();
+		
+		foreach( $result as $dependencia ) {
+			$dependencias[$dependencia->id] = $dependencia->nombre;
 		}
 				
-		$dependencias = array();
+		// usuarios
+		$result = Usuario::model()->findAll();
 		$usuarios = array();
+		
+		foreach( $result as $usuario ) {
+			$usuarios[$usuario->id] = $usuario->nombre . ' ' . $usuario->apellidos;
+		}
 	
 		// llamar la vista
 		$this->render('VerIncluirExpediente',array('model'=>$model,'expedientes'=>$expedientes,
@@ -298,7 +326,7 @@ class GACController extends Controller {
 	public function actionGuardarIncluirExpediente() {
 		$model = new ExpedienteForm;
 		$model->attributes=$_POST['ExpedienteForm'];
-		
+
 		if( !(isset( $_POST['enviado'] ) && $_POST['enviado'] == "X")  ) {	// caso 2: se solicitan los datos para el expediente especificado
 			$model->pqrs = $_POST['ExpedienteForm']['pqrs'];
 			$model->expediente = $_POST['ExpedienteForm']['expediente'];
@@ -318,9 +346,9 @@ class GACController extends Controller {
 			}
 			
 			// dependencias
-			$result = Dependencia::model()->findAll( 'expediente=' . $model->expediente );
+			$result = Dependencia::model()->findAll( 'expediente = "' . $model->expediente . '"' );
 			$dependencias = array();
-			
+
 			foreach( $result as $dependencia ) {
 				$dependencias[$dependencia->id] = $dependencia->nombre;
 			}				
@@ -359,6 +387,7 @@ class GACController extends Controller {
 			$historico->pqrs = $_POST['ExpedienteForm']['pqrs'];
 			$historico->save();
 		
+			Yii::app()->user->setFlash('success','PQRS ' . $historico->pqrs . ' actualizada exitosamente');
 			$this->redirect('index.php?r=GAC/IncluirExpediente');	
 		}
 	}
@@ -375,6 +404,7 @@ class GACController extends Controller {
 				$plantilla->texto = $_POST['PlantillaForm']['texto'];
 				$plantilla->save();
 				
+				Yii::app()->user->setFlash('success','Plantilla creada exitosamente');
 				$model = new PlantillaForm;
 			}
 		}

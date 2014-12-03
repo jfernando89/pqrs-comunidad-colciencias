@@ -71,14 +71,14 @@ class Empresas extends CActiveRecord
 		return array(
 			'nit' => 'Nit:',
 			'nombre' => 'Nombre Empresa:',
-			'direccion' => 'Direccion:',
-			'telefono' => 'Telefono:',
-			'correo' => 'Correo Electronico:',
+			'direccion' => 'Dirección:',
+			'telefono' => 'Teléfono:',
+			'correo' => 'Correo Electrónico:',
 			'ciudad' => 'Ciudad:',
 			'nombreContacto' => 'Nombre Contacto:',
 			'primerApellidoContacto' => 'Primer Apellido Contacto:',
 			'segundoApellidoContacto' => 'Segundo Apellido Contacto:',
-			'telefonoContacto' => 'Telefono Contacto:',
+			'telefonoContacto' => 'Teléfono Contacto:',
 		);
 	}
 
@@ -113,6 +113,7 @@ class Empresas extends CActiveRecord
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination'=>array('pageSize'=>1000),
 		));
 	}
 

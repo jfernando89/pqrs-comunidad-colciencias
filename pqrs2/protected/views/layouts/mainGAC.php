@@ -32,7 +32,7 @@
 		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Principal', 'url'=>array('/GAC/PrincipalGAC')),
-				array('label'=>'Asignar Tipologia', 'url'=>array('/GAC/AsignarTipologia')),
+				array('label'=>'Asignar Tipología', 'url'=>array('/GAC/AsignarTipologia')),
 				array('label'=>'Incluir Expediente', 'url'=>array('/GAC/IncluirExpediente')),
 				array('label'=>'Plantillas', 'url'=>array('/GAC/Plantillas')),
 				array('label'=>'Responder', 'url'=>array('/GAC/ListaPQRSPendientesRespuesta')),

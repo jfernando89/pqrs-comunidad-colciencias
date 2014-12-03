@@ -4,6 +4,13 @@
 /* @var $form CActiveForm */
 ?>
 
+<script type="text/javascript">
+	function borrarSubtema() {
+		var subtemas = document.getElementById('AsignarTipologiaPQRSForm_subtema');
+		subtemas.innerHTML = '';		
+	}
+</script>
+
 <h1>Asignar Tipolog&iacute;a</h1>
 
 <div class="form">
@@ -63,7 +70,7 @@
 	<div class="row centered"><p class="error"><?php echo $error; ?></p></div>
 	
 	<div class="row buttons centered">
-		<?php echo CHtml::resetButton('Cancelar', array( 'class'=>'buttonPQR')); ?>
+		<?php echo CHtml::resetButton('Borrar', array( 'class'=>'buttonPQR','onclick'=>'borrarSubtema()')); ?>
 		<?php echo CHtml::submitButton('Actualizar', array( 'class'=>'buttonPQR')); ?>
 	</div>
 
